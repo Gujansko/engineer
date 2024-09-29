@@ -1,9 +1,8 @@
 import { Config } from "../models/config/config.type";
 
-if (process.env.NODE_ENV !== "production") {
-  const dotenv = await import("dotenv");
-  dotenv.config({ path: "../.env" });
-}
+// Fixing deployment issue
+// const dotenv = await import("dotenv");
+// dotenv.config({ path: "../.env" });
 
 const serverPort = process.env.SERVER_PORT || "3001";
 const scrapeBaseUrl =
