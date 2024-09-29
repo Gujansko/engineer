@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  box-sizing: border-box;
+}
+
+@layer base {
+  :root {
+    --radius: 0.5rem;
+  }
+}

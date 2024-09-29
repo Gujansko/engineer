@@ -1,0 +1,146 @@
+import { MatchData } from "../../models/types/match-data.type";
+
+export const matchCsvToData: {
+  [key in keyof MatchData]: string[];
+} = {
+  // General match info
+  leagueDivision: ["Div"],
+  matchDate: ["Date"],
+  matchTime: ["Time"],
+  homeTeam: ["HomeTeam"],
+  awayTeam: ["AwayTeam"],
+
+  // Full-time results
+  fullTimeHomeGoals: ["FTHG", "HG"], // HG is an alias for FTHG
+  fullTimeAwayGoals: ["FTAG", "AG"], // AG is an alias for FTAG
+  fullTimeResult: ["FTR", "Res"], // Res is an alias for FTR
+
+  // Half-time results
+  halfTimeHomeGoals: ["HTHG"],
+  halfTimeAwayGoals: ["HTAG"],
+  halfTimeResult: ["HTR"],
+
+  // Match statistics
+  attendance: ["Attendance"],
+  referee: ["Referee"],
+  homeShots: ["HS"],
+  awayShots: ["AS"],
+  homeShotsOnTarget: ["HST"],
+  awayShotsOnTarget: ["AST"],
+  homeHitWoodwork: ["HHW"],
+  awayHitWoodwork: ["AHW"],
+  homeCorners: ["HC"],
+  awayCorners: ["AC"],
+  homeFouls: ["HF"],
+  awayFouls: ["AF"],
+  homeFreeKicksConceded: ["HFKC"],
+  awayFreeKicksConceded: ["AFKC"],
+  homeOffsides: ["HO"],
+  awayOffsides: ["AO"],
+  homeYellowCards: ["HY"],
+  awayYellowCards: ["AY"],
+  homeRedCards: ["HR"],
+  awayRedCards: ["AR"],
+  homeBookingsPoints: ["HBP"],
+  awayBookingsPoints: ["ABP"],
+
+  // 1X2 betting odds
+  bet365HomeWinOdds: ["B365H"],
+  bet365DrawOdds: ["B365D"],
+  bet365AwayWinOdds: ["B365A"],
+  betfairHomeWinOdds: ["BFH"],
+  betfairDrawOdds: ["BFD"],
+  betfairAwayWinOdds: ["BFA"],
+  betfairExchangeHomeWinOdds: ["BFEH"],
+  betfairExchangeDrawOdds: ["BFED"],
+  betfairExchangeAwayWinOdds: ["BFEA"],
+  blueSquareHomeWinOdds: ["BSH"],
+  blueSquareDrawOdds: ["BSD"],
+  blueSquareAwayWinOdds: ["BSA"],
+  betAndWinHomeWinOdds: ["BWH"],
+  betAndWinDrawOdds: ["BWD"],
+  betAndWinAwayWinOdds: ["BWA"],
+  gamebookersHomeWinOdds: ["GBH"],
+  gamebookersDrawOdds: ["GBD"],
+  gamebookersAwayWinOdds: ["GBA"],
+  interwettenHomeWinOdds: ["IWH"],
+  interwettenDrawOdds: ["IWD"],
+  interwettenAwayWinOdds: ["IWA"],
+  ladbrokesHomeWinOdds: ["LBH"],
+  ladbrokesDrawOdds: ["LBD"],
+  ladbrokesAwayWinOdds: ["LBA"],
+  pinnacleHomeWinOdds: ["PSH", "PH"], // PH is an alias for PSH
+  pinnacleDrawOdds: ["PSD", "PD"], // PD is an alias for PSD
+  pinnacleAwayWinOdds: ["PSA", "PA"], // PA is an alias for PSA
+  sportingOddsHomeWinOdds: ["SOH"],
+  sportingOddsDrawOdds: ["SOD"],
+  sportingOddsAwayWinOdds: ["SOA"],
+  sportingbetHomeWinOdds: ["SBH"],
+  sportingbetDrawOdds: ["SBD"],
+  sportingbetAwayWinOdds: ["SBA"],
+  stanJamesHomeWinOdds: ["SJH"],
+  stanJamesDrawOdds: ["SJD"],
+  stanJamesAwayWinOdds: ["SJA"],
+  stanleybetHomeWinOdds: ["SYH"],
+  stanleybetDrawOdds: ["SYD"],
+  stanleybetAwayWinOdds: ["SYA"],
+  vcBetHomeWinOdds: ["VCH"],
+  vcBetDrawOdds: ["VCD"],
+  vcBetAwayWinOdds: ["VCA"],
+  williamHillHomeWinOdds: ["WHH"],
+  williamHillDrawOdds: ["WHD"],
+  williamHillAwayWinOdds: ["WHA"],
+
+  // Aggregated 1X2 odds
+  numberOfBookmakersFor1X2: ["Bb1X2"],
+  maxHomeWinOdds: ["BbMxH", "MaxH"],
+  avgHomeWinOdds: ["BbAvH", "AvgH"],
+  maxDrawOdds: ["BbMxD", "MaxD"],
+  avgDrawOdds: ["BbAvD", "AvgD"],
+  maxAwayWinOdds: ["BbMxA", "MaxA"],
+  avgAwayWinOdds: ["BbAvA", "AvgA"],
+
+  // Over/Under betting odds
+  numberOfBookmakersForOverUnder25: ["BbOU"],
+  maxOver25GoalsOdds: ["BbMx>2.5", "Max>2.5"],
+  avgOver25GoalsOdds: ["BbAv>2.5", "Avg>2.5"],
+  maxUnder25GoalsOdds: ["BbMx<2.5", "Max<2.5"],
+  avgUnder25GoalsOdds: ["BbAv<2.5", "Avg<2.5"],
+  gamebookersOver25GoalsOdds: ["GB>2.5"],
+  gamebookersUnder25GoalsOdds: ["GB<2.5"],
+  bet365Over25GoalsOdds: ["B365>2.5"],
+  bet365Under25GoalsOdds: ["B365<2.5"],
+  pinnacleOver25GoalsOdds: ["P>2.5"],
+  pinnacleUnder25GoalsOdds: ["P<2.5"],
+  marketMaxOver25GoalsOdds: ["Max>2.5"],
+  marketMaxUnder25GoalsOdds: ["Max<2.5"],
+  marketAvgOver25GoalsOdds: ["Avg>2.5"],
+  marketAvgUnder25GoalsOdds: ["Avg<2.5"],
+
+  // Asian Handicap betting odds
+  numberOfBookmakersForAsianHandicap: ["BbAH"],
+  betbrainHandicapSize: ["BbAHh"],
+  marketHandicapSize: ["AHh"], // since 2019/2020
+  maxAsianHandicapHomeOdds: ["BbMxAHH", "MaxAHH"],
+  avgAsianHandicapHomeOdds: ["BbAvAHH", "AvgAHH"],
+  maxAsianHandicapAwayOdds: ["BbMxAHA", "MaxAHA"],
+  avgAsianHandicapAwayOdds: ["BbAvAHA", "AvgAHA"],
+  gamebookersAsianHandicapHomeOdds: ["GBAHH"],
+  gamebookersAsianHandicapAwayOdds: ["GBAHA"],
+  gamebookersHandicapSize: ["GBAH"],
+  ladbrokesAsianHandicapHomeOdds: ["LBAHH"],
+  ladbrokesAsianHandicapAwayOdds: ["LBAHA"],
+  ladbrokesHandicapSize: ["LBAH"],
+  bet365AsianHandicapHomeOdds: ["B365AHH"],
+  bet365AsianHandicapAwayOdds: ["B365AHA"],
+  bet365HandicapSize: ["B365AH"],
+  pinnacleAsianHandicapHomeOdds: ["PAHH"],
+  pinnacleAsianHandicapAwayOdds: ["PAHA"],
+  marketMaxAsianHandicapHomeOdds: ["MaxAHH"],
+  marketMaxAsianHandicapAwayOdds: ["MaxAHA"],
+  marketAvgAsianHandicapHomeOdds: ["AvgAHH"],
+  marketAvgAsianHandicapAwayOdds: ["AvgAHA"],
+  leagueName: [],
+  season: [],
+  leagueCountry: [],
+};
