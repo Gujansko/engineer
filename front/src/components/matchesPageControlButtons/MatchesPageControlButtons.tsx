@@ -78,7 +78,7 @@ const MatchesPageControlButtons = ({
             if (typeof newMatchData === "string") {
               toast({
                 title: "Failed to load data",
-                description: newMatchData,
+                description: `Please try again, error: ${newMatchData}`,
                 variant: "destructive",
               });
               return;

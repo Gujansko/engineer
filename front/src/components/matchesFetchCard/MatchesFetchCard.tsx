@@ -216,6 +216,7 @@ const MatchesFetchCard = ({
               onChange={handleLeagueChange}
               onBlur={() => updateQueryString("league", league)}
               onMouseLeave={() => updateQueryString("league", league)}
+              onTouchEnd={() => updateQueryString("seasons", seasons)}
               value={league}
             />
             <AvailableLeaguesDialog country={country} />
@@ -226,6 +227,7 @@ const MatchesFetchCard = ({
             onChange={handleSeasonsChange}
             onBlur={() => updateQueryString("seasons", seasons)}
             onMouseLeave={() => updateQueryString("seasons", seasons)}
+            onTouchEnd={() => updateQueryString("seasons", seasons)}
             value={seasons}
           />
         </div>
@@ -259,6 +261,7 @@ const MatchesFetchCard = ({
             onChange={handleTeamsChange}
             onBlur={() => updateQueryString("teams", teams)}
             onMouseLeave={() => updateQueryString("teams", teams)}
+            onTouchEnd={() => updateQueryString("seasons", seasons)}
             value={teams}
           />
         </div>

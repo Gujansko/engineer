@@ -1,7 +1,6 @@
 import { Config } from "../models/config/config.type";
+// import dotenv from "dotenv";
 
-// Fixing deployment issue
-// const dotenv = await import("dotenv");
 // dotenv.config({ path: "../.env" });
 
 const serverPort = process.env.SERVER_PORT || "3001";
