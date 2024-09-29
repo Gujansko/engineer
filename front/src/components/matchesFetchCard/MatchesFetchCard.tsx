@@ -93,11 +93,21 @@ const MatchesFetchCard = ({
   };
 
   const updateAllQueryStrings = () => {
-    updateQueryString("country", country);
-    updateQueryString("league", league);
-    updateQueryString("seasons", seasons);
-    updateQueryString("teams", teams);
-    updateQueryString("statisticFields", statisticFields);
+    if (country.length) {
+      updateQueryString("country", country);
+    }
+    if (league.length) {
+      updateQueryString("league", league);
+    }
+    if (seasons.length) {
+      updateQueryString("seasons", seasons);
+    }
+    if (teams.length) {
+      updateQueryString("teams", teams);
+    }
+    if (statisticFields.length) {
+      updateQueryString("statisticFields", statisticFields);
+    }
   };
 
   const handleStatisticFieldChange = (field: string) => {
