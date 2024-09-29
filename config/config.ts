@@ -1,6 +1,5 @@
 import { Config } from "../models/config/config.type";
 
-console.log(process.env.NODE_ENV);
 if (process.env.NODE_ENV !== "production") {
   const dotenv = await import("dotenv");
   dotenv.config({ path: "../.env" });

@@ -8,7 +8,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import JSONPretty from "react-json-pretty";
-import JsonStyle from "../../styles/JsonStyle.css";
+import "../../styles/JsonStyle.css";
 import { Button } from "../ui/button";
 import { useState } from "react";
 import { getButtonVariant, handleCopy } from "@/util/copyButtonHandle";
@@ -37,7 +37,7 @@ const RequestBodyDialog = ({ requestBody }: { requestBody: object | null }) => {
         {requestBody && (
           <>
             <div className="mb-4">
-              <JSONPretty data={requestBody} theme={JsonStyle} />
+              <JSONPretty data={requestBody} />
             </div>
             <Button
               onClick={() => handleCopy(requestBody, setCopyStatus)}
