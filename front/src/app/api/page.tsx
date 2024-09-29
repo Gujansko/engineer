@@ -1,3 +1,3 @@
 export default function ApiPage() {
-  return <section></section>;
+  return <section>Api</section>;
 }
