@@ -92,6 +92,14 @@ const MatchesFetchCard = ({
     }
   };
 
+  const updateAllQueryStrings = () => {
+    updateQueryString("country", country);
+    updateQueryString("league", league);
+    updateQueryString("seasons", seasons);
+    updateQueryString("teams", teams);
+    updateQueryString("statisticFields", statisticFields);
+  };
+
   const handleStatisticFieldChange = (field: string) => {
     const currentFields = statisticFields.split(",").filter(Boolean);
     let updatedFields;
@@ -181,7 +189,11 @@ const MatchesFetchCard = ({
   };
 
   return (
-    <Card className="max-w-6xl min-w-[40%]">
+    <Card
+      className="max-w-6xl min-w-[40%]"
+      onTouchEnd={updateAllQueryStrings}
+      onMouseLeave={updateAllQueryStrings}
+    >
       <CardHeader>
         <CardTitle>Filter parameters</CardTitle>
         <CardDescription>
