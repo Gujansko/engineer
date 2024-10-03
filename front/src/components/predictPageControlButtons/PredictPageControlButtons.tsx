@@ -64,7 +64,6 @@ const PredictPageControlButtons = ({
     } catch (error: any) {
       toast({
         title: "Failed to predict",
-        description: error.message,
         variant: "destructive",
       });
     } finally {
