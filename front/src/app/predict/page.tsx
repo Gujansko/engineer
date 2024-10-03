@@ -140,6 +140,7 @@ export default function PredictPage() {
         setExportStatus={setExportStatus}
         setPredictionResults={setPredictionResults}
         importPredictions={importPredictions}
+        setLoading={setLoading}
       />
     </section>
   );

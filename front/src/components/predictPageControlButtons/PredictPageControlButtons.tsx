@@ -16,6 +16,7 @@ const PredictPageControlButtons = ({
   setExportStatus,
   setPredictionResults,
   importPredictions,
+  setLoading,
 }: {
   pickedResults: Record<string, "A" | "H" | "D">;
   matchesToPredict: MatchToPredictWithId[];
@@ -26,6 +27,7 @@ const PredictPageControlButtons = ({
     SetStateAction<Map<string, ActualPredictResult>>
   >;
   importPredictions: (matches: MatchToPredictWithId[]) => void;
+  setLoading: Dispatch<SetStateAction<boolean>>;
 }) => {
   const [requestBody, setRequestBody] = useState<object | null>(null);
 
@@ -41,22 +43,33 @@ const PredictPageControlButtons = ({
   };
 
   const handlePredict = async () => {
-    const predictionResult = await predict(matchesToPredict, pickedResults);
+    setLoading(true);
+    try {
+      const predictionResult = await predict(matchesToPredict, pickedResults);
 
-    if ("error" in predictionResult.response) {
+      if ("error" in predictionResult.response) {
+        toast({
+          title: "Failed to predict",
+          description: predictionResult.response.error,
+          variant: "destructive",
+        });
+        return;
+      }
+      setPredictionResults(
+        new Map(
+          predictionResult.response.results.map((result) => [result.id, result])
+        )
+      );
+      setRequestBody(predictionResult.body);
+    } catch (error: any) {
       toast({
         title: "Failed to predict",
-        description: predictionResult.response.error,
+        description: error.message,
         variant: "destructive",
       });
-      return;
+    } finally {
+      setLoading(false);
     }
-    setPredictionResults(
-      new Map(
-        predictionResult.response.results.map((result) => [result.id, result])
-      )
-    );
-    setRequestBody(predictionResult.body);
   };
 
   return (
