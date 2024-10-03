@@ -45,7 +45,7 @@ const RequiredDialogInfo = () => {
               </span>
               button and select another country.{"\n\n"}
               <span className={spanHighlightClassName}>
-                Checkout available leagues{" "}
+                Select country to checkout leagues/Checkout available leagues{" "}
               </span>
               button is disabled until a country is selected.
             </p>
@@ -61,7 +61,7 @@ const RequiredDialogInfo = () => {
               button and select another league.{"\n\n"}To show the available
               leagues select a country first then press the{" "}
               <span className={spanHighlightClassName}>
-                Checkout available leagues
+                Select country to checkout leagues/Checkout available leagues
               </span>{" "}
               button.
             </p>

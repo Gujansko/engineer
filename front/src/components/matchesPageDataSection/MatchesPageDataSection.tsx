@@ -18,6 +18,7 @@ import { Button } from "../ui/button";
 import { spanHighlightClassName } from "@/constants/parameters";
 import { useToast } from "@/hooks/use-toast";
 import React from "react";
+import { LoaderCircle } from "lucide-react";
 
 const MatchesPageDataSection = () => {
   const [matchesData, setMatchesData] = useState<Partial<MatchData>[]>([]);
@@ -25,6 +26,8 @@ const MatchesPageDataSection = () => {
   const [matchesToPredict, setMatchesToPredict] = useState<MatchToPredict[]>(
     []
   );
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
 
   const { toast } = useToast();
 
@@ -89,8 +92,14 @@ const MatchesPageDataSection = () => {
       <MatchesPageControlButtons
         setMatchesData={setMatchesData}
         setRequestBody={setRequestBody}
+        setLoading={setLoading}
+        setError={setError}
       />
-      {matchesData.length > 0 ? (
+      {error && <p className="text-red-500 mt-8">{error}</p>}
+      {loading && (
+        <LoaderCircle className="w-10 h-10 animate-spin text-teal-500 mt-8" />
+      )}
+      {!(error || loading) && matchesData.length > 0 ? (
         <Table>
           <TableCaption>A list of matches</TableCaption>
           <TableHeader>
@@ -102,24 +111,29 @@ const MatchesPageDataSection = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {matchesData.map((match, index) => (
-              <>
-                <TableRow key={index}>
-                  {match?.season?.length &&
-                  match?.leagueName?.length &&
-                  match?.leagueCountry?.length ? (
-                    <TableCell>
-                      {!matchAlreadyAdded({
-                        leagueName: match.leagueName ?? "",
-                        season: match.season ?? "",
-                        homeTeam: match.homeTeam ?? "",
-                        awayTeam: match.awayTeam ?? "",
-                        leagueCountry: match.leagueCountry ?? "",
-                      }) ? (
+            {matchesData.map((match, index) => {
+              const isMatchAlreadyAdded = matchAlreadyAdded({
+                leagueName: match.leagueName ?? "",
+                season: match.season ?? "",
+                homeTeam: match.homeTeam ?? "",
+                awayTeam: match.awayTeam ?? "",
+                leagueCountry: match.leagueCountry ?? "",
+              });
+              const matchFunction = isMatchAlreadyAdded
+                ? removeMatchToPredict
+                : addMatchToPredict;
+              return (
+                <>
+                  <TableRow key={index}>
+                    {match?.season?.length &&
+                    match?.leagueName?.length &&
+                    match?.leagueCountry?.length ? (
+                      <TableCell>
                         <Button
-                          variant="green"
+                          className="w-[160px] whitespace-normal py-2 h-fit"
+                          variant={isMatchAlreadyAdded ? "red" : "green"}
                           onClick={() =>
-                            addMatchToPredict({
+                            matchFunction({
                               leagueName: match.leagueName ?? "",
                               season: match.season ?? "",
                               homeTeam: match.homeTeam ?? "",
@@ -128,43 +142,30 @@ const MatchesPageDataSection = () => {
                             })
                           }
                         >
-                          Add match to prediction
+                          {isMatchAlreadyAdded
+                            ? "Remove match from predictions"
+                            : "Add match to predictions"}
                         </Button>
-                      ) : (
-                        <Button
-                          variant="red"
-                          onClick={() =>
-                            removeMatchToPredict({
-                              leagueName: match.leagueName ?? "",
-                              season: match.season ?? "",
-                              homeTeam: match.homeTeam ?? "",
-                              awayTeam: match.awayTeam ?? "",
-                              leagueCountry: match.leagueCountry ?? "",
-                            })
-                          }
-                        >
-                          Remove match from prediction
-                        </Button>
-                      )}
-                    </TableCell>
-                  ) : (
-                    <TableCell className="max-w-[100px]">
-                      <p className="whitespace-pre-wrap">
-                        Not enough data to add match to predict.{"\n\n"}
-                        <span className={spanHighlightClassName}>
-                          Required fields to predict are:{" "}
-                        </span>
-                        leagueName, leagueCountry, season, homeTeam and
-                        awayTeam.
-                      </p>
-                    </TableCell>
-                  )}
-                  {Object.values(match).map((value, idx) => (
-                    <TableCell key={`${index}-${idx}`}>{value}</TableCell>
-                  ))}
-                </TableRow>
-              </>
-            ))}
+                      </TableCell>
+                    ) : (
+                      <TableCell className="max-w-[100px]">
+                        <p className="whitespace-pre-wrap">
+                          Not enough data to add match to predict.{"\n\n"}
+                          <span className={spanHighlightClassName}>
+                            Required fields to predict are:{" "}
+                          </span>
+                          leagueName, leagueCountry, season, homeTeam and
+                          awayTeam.
+                        </p>
+                      </TableCell>
+                    )}
+                    {Object.values(match).map((value, idx) => (
+                      <TableCell key={`${index}-${idx}`}>{value}</TableCell>
+                    ))}
+                  </TableRow>
+                </>
+              );
+            })}
           </TableBody>
         </Table>
       ) : (

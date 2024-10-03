@@ -11,9 +11,13 @@ import { useToast } from "@/hooks/use-toast";
 const MatchesPageControlButtons = ({
   setMatchesData,
   setRequestBody,
+  setLoading,
+  setError,
 }: {
   setMatchesData: Dispatch<SetStateAction<Partial<MatchData>[]>>;
   setRequestBody: Dispatch<SetStateAction<object>>;
+  setLoading: Dispatch<SetStateAction<boolean>>;
+  setError: Dispatch<SetStateAction<string>>;
 }) => {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -74,17 +78,25 @@ const MatchesPageControlButtons = ({
         <Button
           variant="teal"
           onClick={async () => {
-            const newMatchData = await fetchMatches(searchParams);
-            if (typeof newMatchData === "string") {
-              toast({
-                title: "Failed to load data",
-                description: `Please try again, error: ${newMatchData}`,
-                variant: "destructive",
-              });
-              return;
+            setLoading(true);
+            try {
+              const newMatchData = await fetchMatches(searchParams);
+              if (typeof newMatchData === "string") {
+                toast({
+                  title: "Failed to load data",
+                  description: `Please try again, error: ${newMatchData}`,
+                  variant: "destructive",
+                });
+                return;
+              }
+
+              setMatchesData(newMatchData.matches);
+              setRequestBody(newMatchData.requestBody);
+            } catch (error) {
+              setError("Failed to fetch matches, please try again later.");
+            } finally {
+              setLoading(false);
             }
-            setMatchesData(newMatchData.matches);
-            setRequestBody(newMatchData.requestBody);
           }}
           className="max-xl:w-fit"
         >

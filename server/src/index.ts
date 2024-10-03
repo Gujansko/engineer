@@ -6,6 +6,7 @@ import { getMatchesController } from "./controllers/matches.controller.ts";
 import { predictController } from "./controllers/predict.controller.ts";
 import cachedMiddleware from "../utils/cache.ts";
 import { getCountriesController } from "./controllers/countries.controller.ts";
+import { getMatchesFieldsController } from "./controllers/matches-fields.controller.ts";
 
 const app = express();
 const port = config.serverPort;
@@ -16,6 +17,8 @@ app.use(express.json());
 app.get("/seasons/:leagueCountry", cachedMiddleware(), getSeasonsController);
 
 app.get("/countries", cachedMiddleware(), getCountriesController);
+
+app.get("/matches/fields", cachedMiddleware(), getMatchesFieldsController);
 
 app.post("/predict", cachedMiddleware(), predictController);
 
