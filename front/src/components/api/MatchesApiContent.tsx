@@ -6,8 +6,18 @@ import {
   matchesSchemaRequest,
   matchesExampleRequest,
 } from "@/constants/matchesEndpoint.constants";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "../ui/tooltip";
+import config from "@config/config";
+import { Info } from "lucide-react";
 
 export const MatchesApiContent = () => {
+  const defaultStatisticalFields = config.fetchedFields;
+
   return (
     <section className="flex flex-col flex-wrap gap-8">
       <div className="flex flex-col flex-wrap gap-4 pt-8 items-baseline">
@@ -91,9 +101,23 @@ export const MatchesApiContent = () => {
             </span>
             <span>
               Not required parameter setting statistical fields to be fetched
-              for each match. If not provided default fields will be provided
-              {" (look in the example response)"}. Available fields can be
-              fetched using{" "}
+              for each match. If not provided{" "}
+              <span>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger>
+                      default fields
+                      <Info className="w-4 h-4 inline-block ml-1" />
+                    </TooltipTrigger>
+                    <TooltipContent className="w-fit">
+                      <p className="whitespace-pre-wrap">
+                        {defaultStatisticalFields.join(", \n")}
+                      </p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </span>{" "}
+              will be provided. Available fields can be fetched using{" "}
               <span className="text-[#f8f8f2] bg-[#0f172a] p-2 rounded-md">
                 Get Available Matches Fields
               </span>{" "}
