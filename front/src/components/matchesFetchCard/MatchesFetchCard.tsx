@@ -92,22 +92,35 @@ const MatchesFetchCard = ({
     }
   };
 
+  const handleUpdateOfParams = (
+    param: string,
+    value: string,
+    params: URLSearchParams
+  ) => {
+    if (value.length) {
+      params.set(param, value);
+    } else {
+      params.delete(param);
+    }
+    return params;
+  };
+
   const updateAllQueryStrings = () => {
-    if (country.length) {
-      updateQueryString("country", country);
-    }
-    if (league.length) {
-      updateQueryString("league", league);
-    }
-    if (seasons.length) {
-      updateQueryString("seasons", seasons);
-    }
-    if (teams.length) {
-      updateQueryString("teams", teams);
-    }
-    if (statisticFields.length) {
-      updateQueryString("statisticFields", statisticFields);
-    }
+    let params = new URLSearchParams(searchParams.toString());
+
+    params = handleUpdateOfParams(`country-${index}`, country, params);
+    params = handleUpdateOfParams(`league-${index}`, league, params);
+    params = handleUpdateOfParams(`seasons-${index}`, seasons, params);
+    params = handleUpdateOfParams(`teams-${index}`, teams, params);
+    params = handleUpdateOfParams(
+      `statisticFields-${index}`,
+      statisticFields,
+      params
+    );
+
+    router.push(pathname + "?" + params.toString(), {
+      scroll: false,
+    });
   };
 
   const handleStatisticFieldChange = (field: string) => {

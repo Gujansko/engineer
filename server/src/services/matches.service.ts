@@ -24,7 +24,9 @@ export const getMatches = async (
       matchRequest;
 
     for (const season of seasons) {
-      const seasonsCheck = season.split("/");
+      const actualSeason = season.replace(/[^0-9/]/g, "").trim();
+      const seasonsCheck = actualSeason.split("/");
+
       if (
         seasonsCheck.length !== 2 ||
         !seasonsCheck.every((s) => s.length === 4)
@@ -32,7 +34,11 @@ export const getMatches = async (
         throw new Error("Invalid season format");
       }
 
-      const seasonUrl = await getSeasonUrl(leagueCountry, leagueName, season);
+      const seasonUrl = await getSeasonUrl(
+        leagueCountry,
+        leagueName,
+        actualSeason
+      );
       const matchDataUnified = await extractMatchDataFromUrl(
         seasonUrl,
         fetchedFields && fetchedFields.length > 0
@@ -41,7 +47,7 @@ export const getMatches = async (
         includeResults,
         leagueCountry,
         leagueName,
-        season,
+        actualSeason,
         includedTeams
       );
       response.push(...matchDataUnified);
