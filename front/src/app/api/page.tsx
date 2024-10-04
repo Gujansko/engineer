@@ -55,7 +55,7 @@ export default function ApiPage() {
             onValueChange={(value) => setSelectedEndpoint(value)}
             value={selectedEndpoint}
           >
-            <SelectTrigger className="w-[260px] text-left max-md:w-full">
+            <SelectTrigger className="w-[260px] text-left max-md:w-[120px]">
               <SelectValue placeholder="Pick an endpoint" />
             </SelectTrigger>
             <SelectContent>
