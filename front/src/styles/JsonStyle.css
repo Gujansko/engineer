@@ -3,7 +3,7 @@
   color: #f8f8f2;
   background: #0f172a;
   overflow: auto;
-  word-break: break-all;
+  max-width: 80vw;
 }
 .__json-pretty__ .__json-key__ {
   color: #2dd4bf;
@@ -22,4 +22,10 @@
   color: #f8f8f2;
   background: #1e1e1e;
   overflow: auto;
+}
+
+@media screen and (max-width: 768px) {
+  .__json-pretty__ {
+    max-width: 60vw;
+  }
 }
