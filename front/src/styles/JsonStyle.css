@@ -3,6 +3,7 @@
   color: #f8f8f2;
   background: #0f172a;
   overflow: auto;
+  word-break: break-all;
 }
 .__json-pretty__ .__json-key__ {
   color: #2dd4bf;
