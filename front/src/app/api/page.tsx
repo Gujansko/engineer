@@ -47,7 +47,7 @@ export default function ApiPage() {
         <CardHeader>
           <CardTitle>API</CardTitle>
           <CardDescription>
-            Discover available endpoints and ways to use them.
+            Discover available endpoints and learn how to use them.
           </CardDescription>
         </CardHeader>
         <CardContent>

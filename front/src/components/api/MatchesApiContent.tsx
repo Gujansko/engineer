@@ -14,21 +14,23 @@ import {
 } from "../ui/tooltip";
 import config from "@config/config";
 import { Info } from "lucide-react";
+import { useState } from "react";
 
 export const MatchesApiContent = () => {
+  const [isTooltipOpen, setIsTooltipOpen] = useState(false);
   const defaultStatisticalFields = config.fetchedFields;
 
   return (
-    <section className="flex flex-col flex-wrap gap-8">
-      <div className="flex flex-col flex-wrap gap-4 pt-8 items-baseline">
-        <div className="flex flex-col flex-wrap gap-2">
+    <section className="flex flex-col gap-8">
+      <div className="flex flex-col gap-4 pt-8 items-baseline">
+        <div className="flex flex-col gap-2">
           <h2 className="text-xl font-semibold">Endpoint address:</h2>
           <h3 className="text-lg text-[#f8f8f2] bg-[#0f172a] p-2 rounded-md break-all w-fit">
             <span className="text-green-400">/matches</span>
             <span className="text-yellow-400">?includeResults</span>
           </h3>
         </div>
-        <div className="flex flex-col flex-wrap gap-4">
+        <div className="flex flex-col gap-4">
           <h4 className="leading-10">
             <span className="text-green-400 bg-[#0f172a] p-2 rounded-md mr-2">
               seasons
@@ -50,9 +52,9 @@ export const MatchesApiContent = () => {
         <h2 className="text-xl font-semibold mb-1">Returns:</h2>
         <p className="text-base">A list of matches.</p>
       </div>
-      <div className="flex flex-col flex-wrap gap-2">
+      <div className="flex flex-col gap-2">
         <h2 className="text-xl font-semibold">Schema:</h2>
-        <div className="flex flex-col flex-wrap gap-2">
+        <div className="flex flex-col gap-2">
           <div>
             <h3 className="text-base mb-1">Request Body:</h3>
             <JSONPretty data={matchesSchemaRequest} />
@@ -64,7 +66,7 @@ export const MatchesApiContent = () => {
             <span>
               League country name. Available countries can be fetched using{" "}
             </span>
-            <span className="text-[#f8f8f2] bg-[#0f172a] p-2 rounded-md">
+            <span className="text-[#f8f8f2] bg-[#0f172a] p-2 rounded-md inline-block">
               Get Available Countries
             </span>{" "}
             endpoint.
@@ -77,7 +79,7 @@ export const MatchesApiContent = () => {
               Name of the league to get matches from. Available leagues can be
               fetched using{" "}
             </span>
-            <span className="text-[#f8f8f2] bg-[#0f172a] p-2 rounded-md">
+            <span className="text-[#f8f8f2] bg-[#0f172a] p-2 rounded-md inline-block">
               Get Available Seasons
             </span>{" "}
             endpoint.
@@ -90,7 +92,7 @@ export const MatchesApiContent = () => {
               Season of the league to get matches from. Available seasons can be
               fetched using{" "}
             </span>
-            <span className="text-[#f8f8f2] bg-[#0f172a] p-2 rounded-md">
+            <span className="text-[#f8f8f2] bg-[#0f172a] p-2 rounded-md inline-block">
               Get Available Seasons
             </span>{" "}
             endpoint.
@@ -104,8 +106,12 @@ export const MatchesApiContent = () => {
               for each match. If not provided{" "}
               <span>
                 <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger>
+                  <Tooltip open={isTooltipOpen}>
+                    <TooltipTrigger
+                      onClick={() =>
+                        setIsTooltipOpen((prevState) => !prevState)
+                      }
+                    >
                       default fields
                       <Info className="w-4 h-4 inline-block ml-1" />
                     </TooltipTrigger>
@@ -118,7 +124,7 @@ export const MatchesApiContent = () => {
                 </TooltipProvider>
               </span>{" "}
               will be provided. Available fields can be fetched using{" "}
-              <span className="text-[#f8f8f2] bg-[#0f172a] p-2 rounded-md">
+              <span className="text-[#f8f8f2] bg-[#0f172a] p-2 rounded-md inline-block">
                 Get Available Matches Fields
               </span>{" "}
               endpoint.
@@ -139,7 +145,7 @@ export const MatchesApiContent = () => {
           <JSONPretty data={matchesSchemaResponse} />
         </div>
       </div>
-      <div className="flex flex-col flex-wrap gap-2">
+      <div className="flex flex-col gap-2">
         <h2 className="text-xl font-semibold">Example:</h2>
         <div>
           <h3 className="text-base mb-1">Request address:</h3>

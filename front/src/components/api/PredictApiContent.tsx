@@ -9,15 +9,15 @@ import {
 
 export const PredictApiContent = () => {
   return (
-    <section className="flex flex-col flex-wrap gap-8">
-      <div className="flex flex-col flex-wrap gap-4 pt-8 items-baseline">
-        <div className="flex flex-col flex-wrap gap-2">
+    <section className="flex flex-col gap-8">
+      <div className="flex flex-col gap-4 pt-8 items-baseline">
+        <div className="flex flex-col gap-2">
           <h2 className="text-xl font-semibold">Endpoint address:</h2>
           <h3 className="text-lg text-[#f8f8f2] bg-[#0f172a] p-2 rounded-md break-all w-fit">
             <span className="text-green-400">/predict</span>
           </h3>
         </div>
-        <div className="flex flex-col flex-wrap gap-4">
+        <div className="flex flex-col gap-4">
           <h4 className="leading-10">
             <span className="text-green-400 bg-[#0f172a] p-2 rounded-md mr-2">
               predict
@@ -30,9 +30,9 @@ export const PredictApiContent = () => {
         <h2 className="text-xl font-semibold mb-1">Returns:</h2>
         <p className="text-base">A list of prediction results.</p>
       </div>
-      <div className="flex flex-col flex-wrap gap-2">
+      <div className="flex flex-col gap-2">
         <h2 className="text-xl font-semibold">Schema:</h2>
-        <div className="flex flex-col flex-wrap gap-2">
+        <div className="flex flex-col gap-2">
           <div>
             <h3 className="text-base mb-1">Request Body:</h3>
             <JSONPretty data={predictSchemaRequest} />
@@ -54,7 +54,7 @@ export const PredictApiContent = () => {
               League country name of the match to be predicted. Available
               countries can be fetched using{" "}
             </span>
-            <span className="text-[#f8f8f2] bg-[#0f172a] p-2 rounded-md">
+            <span className="text-[#f8f8f2] bg-[#0f172a] p-2 rounded-md inline-block">
               Get Available Countries
             </span>{" "}
             endpoint.
@@ -67,7 +67,7 @@ export const PredictApiContent = () => {
               Name of the league to of the matches to be predicted. Available
               leagues can be fetched using{" "}
             </span>
-            <span className="text-[#f8f8f2] bg-[#0f172a] p-2 rounded-md">
+            <span className="text-[#f8f8f2] bg-[#0f172a] p-2 rounded-md inline-block">
               Get Available Seasons
             </span>{" "}
             endpoint.
@@ -80,7 +80,7 @@ export const PredictApiContent = () => {
               Season of the match to be predicted. Available seasons can be
               fetched using{" "}
             </span>
-            <span className="text-[#f8f8f2] bg-[#0f172a] p-2 rounded-md">
+            <span className="text-[#f8f8f2] bg-[#0f172a] p-2 rounded-md inline-block">
               Get Available Seasons
             </span>{" "}
             endpoint.
@@ -127,7 +127,7 @@ export const PredictApiContent = () => {
           <JSONPretty data={predictSchemaResponse} />
         </div>
       </div>
-      <div className="flex flex-col flex-wrap gap-2">
+      <div className="flex flex-col gap-2">
         <h2 className="text-xl font-semibold">Example:</h2>
         <div>
           <h3 className="text-base mb-1">Request address:</h3>
