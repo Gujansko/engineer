@@ -29,7 +29,7 @@ export const SeasonsApiContent = () => {
             </span>
             <span>
               League country name. Available names can be fetched using the{" "}
-              <span className="text-[#f8f8f2] bg-[#0f172a] p-2 rounded-md inline-block">
+              <span className="text-[#f8f8f2] bg-[#0f172a] px-2 rounded-md inline-block">
                 Get Available Countries
               </span>{" "}
               endpoint.

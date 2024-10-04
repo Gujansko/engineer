@@ -54,7 +54,7 @@ export const PredictApiContent = () => {
               League country name of the match to be predicted. Available
               countries can be fetched using{" "}
             </span>
-            <span className="text-[#f8f8f2] bg-[#0f172a] p-2 rounded-md inline-block">
+            <span className="text-[#f8f8f2] bg-[#0f172a] px-2 rounded-md inline-block">
               Get Available Countries
             </span>{" "}
             endpoint.
@@ -67,7 +67,7 @@ export const PredictApiContent = () => {
               Name of the league to of the matches to be predicted. Available
               leagues can be fetched using{" "}
             </span>
-            <span className="text-[#f8f8f2] bg-[#0f172a] p-2 rounded-md inline-block">
+            <span className="text-[#f8f8f2] bg-[#0f172a] px-2 rounded-md inline-block">
               Get Available Seasons
             </span>{" "}
             endpoint.
@@ -80,7 +80,7 @@ export const PredictApiContent = () => {
               Season of the match to be predicted. Available seasons can be
               fetched using{" "}
             </span>
-            <span className="text-[#f8f8f2] bg-[#0f172a] p-2 rounded-md inline-block">
+            <span className="text-[#f8f8f2] bg-[#0f172a] px-2 rounded-md inline-block">
               Get Available Seasons
             </span>{" "}
             endpoint.

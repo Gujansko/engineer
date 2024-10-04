@@ -66,7 +66,7 @@ export const MatchesApiContent = () => {
             <span>
               League country name. Available countries can be fetched using{" "}
             </span>
-            <span className="text-[#f8f8f2] bg-[#0f172a] p-2 rounded-md inline-block">
+            <span className="text-[#f8f8f2] bg-[#0f172a] px-2 rounded-md inline-block">
               Get Available Countries
             </span>{" "}
             endpoint.
@@ -79,7 +79,7 @@ export const MatchesApiContent = () => {
               Name of the league to get matches from. Available leagues can be
               fetched using{" "}
             </span>
-            <span className="text-[#f8f8f2] bg-[#0f172a] p-2 rounded-md inline-block">
+            <span className="text-[#f8f8f2] bg-[#0f172a] px-2 rounded-md inline-block">
               Get Available Seasons
             </span>{" "}
             endpoint.
@@ -92,7 +92,7 @@ export const MatchesApiContent = () => {
               Season of the league to get matches from. Available seasons can be
               fetched using{" "}
             </span>
-            <span className="text-[#f8f8f2] bg-[#0f172a] p-2 rounded-md inline-block">
+            <span className="text-[#f8f8f2] bg-[#0f172a] px-2 rounded-md inline-block">
               Get Available Seasons
             </span>{" "}
             endpoint.
@@ -124,7 +124,7 @@ export const MatchesApiContent = () => {
                 </TooltipProvider>
               </span>{" "}
               will be provided. Available fields can be fetched using{" "}
-              <span className="text-[#f8f8f2] bg-[#0f172a] p-2 rounded-md inline-block">
+              <span className="text-[#f8f8f2] bg-[#0f172a] px-2 rounded-md inline-block">
                 Get Available Matches Fields
               </span>{" "}
               endpoint.
