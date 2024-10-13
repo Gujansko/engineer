@@ -1,7 +1,9 @@
 import { Config } from "../models/config/config.type";
-// import dotenv from "dotenv";
 
-// dotenv.config({ path: "../.env" });
+//Uncomment if .env variables are not loading properly
+/*import dotenv from "dotenv";
+
+dotenv.config({ path: "../.env" });*/
 
 const serverPort = process.env.SERVER_PORT || "3001";
 const scrapeBaseUrl =
@@ -54,6 +56,14 @@ const config: Config = {
     { name: "England", url: `${scrapeBaseUrl}englandm.php` },
     { name: "Scotland", url: `${scrapeBaseUrl}scotlandm.php` },
     { name: "Germany", url: `${scrapeBaseUrl}germanym.php` },
+    { name: "Spain", url: `${scrapeBaseUrl}spainm.php` },
+    { name: "Italy", url: `${scrapeBaseUrl}italym.php` },
+    { name: "France", url: `${scrapeBaseUrl}francem.php` },
+    { name: "Netherlands", url: `${scrapeBaseUrl}netherlandsm.php` },
+    { name: "Belgium", url: `${scrapeBaseUrl}belgiumm.php` },
+    { name: "Portugal", url: `${scrapeBaseUrl}portugalm.php` },
+    { name: "Turkey", url: `${scrapeBaseUrl}turkeym.php` },
+    { name: "Greece", url: `${scrapeBaseUrl}greecem.php` },
   ],
 };
 
