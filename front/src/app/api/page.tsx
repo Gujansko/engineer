@@ -19,7 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function ApiPage() {
   const [selectedEndpoint, setSelectedEndpoint] = useState<string>("");
@@ -27,19 +27,27 @@ export default function ApiPage() {
   const renderContent = () => {
     switch (selectedEndpoint) {
       case "seasons":
-        return <SeasonsApiContent />;
+        return <SeasonsApiContent setSelectedEndpoint={setSelectedEndpoint} />;
       case "countries":
         return <CountriesApiContent />;
       case "predict":
-        return <PredictApiContent />;
+        return <PredictApiContent setSelectedEndpoint={setSelectedEndpoint} />;
       case "matches":
-        return <MatchesApiContent />;
+        return <MatchesApiContent setSelectedEndpoint={setSelectedEndpoint} />;
       case "matchesFields":
         return <MatchesFieldsApiContent />;
       default:
         return null;
     }
   };
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
+  }, [selectedEndpoint]);
 
   return (
     <section className="grid gap-4 justify-items-center relative w-full px-8 pt-4">

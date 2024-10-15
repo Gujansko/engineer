@@ -10,6 +10,12 @@ export const CountriesApiContent = () => {
     <section className="flex flex-col gap-8">
       <div className="flex flex-col gap-4 pt-8 items-baseline">
         <div className="flex flex-col gap-2">
+          <h2 className="text-xl font-semibold">Method:</h2>
+          <h3 className="text-lg text-[#f8f8f2] bg-[#0f172a] p-2 rounded-md break-all w-fit">
+            <span className="text-rose-400">GET</span>
+          </h3>
+        </div>
+        <div className="flex flex-col gap-2">
           <h2 className="text-xl font-semibold">Endpoint address:</h2>
           <h3 className="text-lg text-[#f8f8f2] bg-[#0f172a] p-2 rounded-md break-all w-fit">
             <span className="text-green-400">/countries</span>

@@ -14,15 +14,27 @@ import {
 } from "../ui/tooltip";
 import config from "@config/config";
 import { Info } from "lucide-react";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
+import { Button } from "../ui/button";
+import { apiRouteButtonClassName } from "@/constants/apiRouteButton.constants";
 
-export const MatchesApiContent = () => {
+export const MatchesApiContent = ({
+  setSelectedEndpoint,
+}: {
+  setSelectedEndpoint: Dispatch<SetStateAction<string>>;
+}) => {
   const [isTooltipOpen, setIsTooltipOpen] = useState(false);
   const defaultStatisticalFields = config.fetchedFields;
 
   return (
     <section className="flex flex-col gap-8">
       <div className="flex flex-col gap-4 pt-8 items-baseline">
+        <div className="flex flex-col gap-2">
+          <h2 className="text-xl font-semibold">Method:</h2>
+          <h3 className="text-lg text-[#f8f8f2] bg-[#0f172a] p-2 rounded-md break-all w-fit">
+            <span className="text-fuchsia-400">POST</span>
+          </h3>
+        </div>
         <div className="flex flex-col gap-2">
           <h2 className="text-xl font-semibold">Endpoint address:</h2>
           <h3 className="text-lg text-[#f8f8f2] bg-[#0f172a] p-2 rounded-md break-all w-fit">
@@ -66,9 +78,12 @@ export const MatchesApiContent = () => {
             <span>
               League country name. Available countries can be fetched using{" "}
             </span>
-            <span className="text-[#f8f8f2] bg-[#0f172a] px-2 rounded-md inline-block">
+            <Button
+              className={apiRouteButtonClassName}
+              onClick={() => setSelectedEndpoint("countries")}
+            >
               Get Available Countries
-            </span>{" "}
+            </Button>{" "}
             endpoint.
           </h4>
           <h4 className="leading-10">
@@ -79,9 +94,12 @@ export const MatchesApiContent = () => {
               Name of the league to get matches from. Available leagues can be
               fetched using{" "}
             </span>
-            <span className="text-[#f8f8f2] bg-[#0f172a] px-2 rounded-md inline-block">
+            <Button
+              className={apiRouteButtonClassName}
+              onClick={() => setSelectedEndpoint("seasons")}
+            >
               Get Available Seasons
-            </span>{" "}
+            </Button>{" "}
             endpoint.
           </h4>
           <h4 className="leading-10">
@@ -92,9 +110,12 @@ export const MatchesApiContent = () => {
               Season of the league to get matches from. Available seasons can be
               fetched using{" "}
             </span>
-            <span className="text-[#f8f8f2] bg-[#0f172a] px-2 rounded-md inline-block">
+            <Button
+              className={apiRouteButtonClassName}
+              onClick={() => setSelectedEndpoint("seasons")}
+            >
               Get Available Seasons
-            </span>{" "}
+            </Button>{" "}
             endpoint.
           </h4>
           <h4 className="leading-10">
@@ -108,6 +129,8 @@ export const MatchesApiContent = () => {
                 <TooltipProvider>
                   <Tooltip open={isTooltipOpen}>
                     <TooltipTrigger
+                      onMouseEnter={() => setIsTooltipOpen(true)}
+                      onMouseLeave={() => setIsTooltipOpen(false)}
                       onClick={() =>
                         setIsTooltipOpen((prevState) => !prevState)
                       }
@@ -123,10 +146,13 @@ export const MatchesApiContent = () => {
                   </Tooltip>
                 </TooltipProvider>
               </span>{" "}
-              will be provided. Available fields can be fetched using{" "}
-              <span className="text-[#f8f8f2] bg-[#0f172a] px-2 rounded-md inline-block">
+              will be used. Available fields can be fetched using{" "}
+              <Button
+                className={apiRouteButtonClassName}
+                onClick={() => setSelectedEndpoint("matchesFields")}
+              >
                 Get Available Matches Fields
-              </span>{" "}
+              </Button>{" "}
               endpoint.
             </span>
           </h4>

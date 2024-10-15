@@ -4,11 +4,24 @@ import {
   seasonsSchemaResponse,
   seasonsExampleResponse,
 } from "@/constants/seasonsEndpoint.constants";
+import { Dispatch, SetStateAction } from "react";
+import { Button } from "../ui/button";
+import { apiRouteButtonClassName } from "@/constants/apiRouteButton.constants";
 
-export const SeasonsApiContent = () => {
+export const SeasonsApiContent = ({
+  setSelectedEndpoint,
+}: {
+  setSelectedEndpoint: Dispatch<SetStateAction<string>>;
+}) => {
   return (
     <section className="flex flex-col gap-8">
       <div className="flex flex-col gap-4 pt-8 items-baseline">
+        <div className="flex flex-col gap-2">
+          <h2 className="text-xl font-semibold">Method:</h2>
+          <h3 className="text-lg text-[#f8f8f2] bg-[#0f172a] p-2 rounded-md break-all w-fit">
+            <span className="text-rose-400">GET</span>
+          </h3>
+        </div>
         <div className="flex flex-col gap-2">
           <h2 className="text-xl font-semibold">Endpoint address:</h2>
           <h3 className="text-lg text-[#f8f8f2] bg-[#0f172a] p-2 rounded-md break-all w-fit">
@@ -29,9 +42,12 @@ export const SeasonsApiContent = () => {
             </span>
             <span>
               League country name. Available names can be fetched using the{" "}
-              <span className="text-[#f8f8f2] bg-[#0f172a] px-2 rounded-md inline-block">
+              <Button
+                className={apiRouteButtonClassName}
+                onClick={() => setSelectedEndpoint("countries")}
+              >
                 Get Available Countries
-              </span>{" "}
+              </Button>{" "}
               endpoint.
             </span>
           </h4>

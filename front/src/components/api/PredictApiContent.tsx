@@ -6,11 +6,24 @@ import {
   predictSchemaRequest,
   predictExampleRequest,
 } from "@/constants/predictEndpoint.constants";
+import { Dispatch, SetStateAction } from "react";
+import { Button } from "../ui/button";
+import { apiRouteButtonClassName } from "@/constants/apiRouteButton.constants";
 
-export const PredictApiContent = () => {
+export const PredictApiContent = ({
+  setSelectedEndpoint,
+}: {
+  setSelectedEndpoint: Dispatch<SetStateAction<string>>;
+}) => {
   return (
     <section className="flex flex-col gap-8">
       <div className="flex flex-col gap-4 pt-8 items-baseline">
+        <div className="flex flex-col gap-2">
+          <h2 className="text-xl font-semibold">Method:</h2>
+          <h3 className="text-lg text-[#f8f8f2] bg-[#0f172a] p-2 rounded-md break-all w-fit">
+            <span className="text-fuchsia-400">POST</span>
+          </h3>
+        </div>
         <div className="flex flex-col gap-2">
           <h2 className="text-xl font-semibold">Endpoint address:</h2>
           <h3 className="text-lg text-[#f8f8f2] bg-[#0f172a] p-2 rounded-md break-all w-fit">
@@ -54,9 +67,12 @@ export const PredictApiContent = () => {
               League country name of the match to be predicted. Available
               countries can be fetched using{" "}
             </span>
-            <span className="text-[#f8f8f2] bg-[#0f172a] px-2 rounded-md inline-block">
+            <Button
+              className={apiRouteButtonClassName}
+              onClick={() => setSelectedEndpoint("countries")}
+            >
               Get Available Countries
-            </span>{" "}
+            </Button>{" "}
             endpoint.
           </h4>
           <h4 className="leading-10">
@@ -67,9 +83,12 @@ export const PredictApiContent = () => {
               Name of the league to of the matches to be predicted. Available
               leagues can be fetched using{" "}
             </span>
-            <span className="text-[#f8f8f2] bg-[#0f172a] px-2 rounded-md inline-block">
+            <Button
+              className={apiRouteButtonClassName}
+              onClick={() => setSelectedEndpoint("seasons")}
+            >
               Get Available Seasons
-            </span>{" "}
+            </Button>{" "}
             endpoint.
           </h4>
           <h4 className="leading-10">
@@ -80,9 +99,12 @@ export const PredictApiContent = () => {
               Season of the match to be predicted. Available seasons can be
               fetched using{" "}
             </span>
-            <span className="text-[#f8f8f2] bg-[#0f172a] px-2 rounded-md inline-block">
+            <Button
+              className={apiRouteButtonClassName}
+              onClick={() => setSelectedEndpoint("seasons")}
+            >
               Get Available Seasons
-            </span>{" "}
+            </Button>{" "}
             endpoint.
           </h4>
           <h4 className="leading-10">
