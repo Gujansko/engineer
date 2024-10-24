@@ -17,11 +17,18 @@ import { createPredictionId } from "@/util/createPredictionId";
 export default function ImportPredictionsDialog({
   onImport,
 }: {
-  onImport: (matchesToPredict: MatchToPredictWithId[]) => void;
+  onImport: (
+    matchesToPredict: MatchToPredictWithId[],
+    selectedResults: Record<string, "A" | "H" | "D">
+  ) => void;
 }) {
   const [matchesToPredict, setMatchesToPredict] = useState<
     MatchToPredictWithId[]
   >([]);
+  const [predictedResults, setPredictedResults] = useState<
+    Record<string, "A" | "H" | "D">
+  >({});
+
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const { toast } = useToast();
 
@@ -37,6 +44,7 @@ export default function ImportPredictionsDialog({
       }
 
       const newMatches: any[] = [];
+      const selectedResults: Record<string, "A" | "H" | "D"> = {};
       parsedMatches.forEach((match: any) => {
         const hasAllFields = config.predictFields.every(
           (field) => match[field] !== undefined
@@ -50,14 +58,18 @@ export default function ImportPredictionsDialog({
         config.predictFields.forEach((field) => {
           newMatch[field] = match[field];
         });
-        newMatch.id = createPredictionId(newMatch);
+        const matchId = createPredictionId(newMatch);
+        newMatch.id = matchId;
+        selectedResults[matchId] = match.result ?? "D";
 
         newMatches.push(newMatch);
       });
 
       setMatchesToPredict(newMatches as MatchToPredictWithId[]);
+      setPredictedResults(selectedResults);
     } catch (error) {
       setMatchesToPredict([]);
+      setPredictedResults({});
       toast({
         title: "Invalid input",
         description: "Please paste a valid JSON array",
@@ -66,9 +78,10 @@ export default function ImportPredictionsDialog({
   };
 
   const handleImport = () => {
-    onImport(matchesToPredict);
+    onImport(matchesToPredict, predictedResults);
     setIsDialogOpen(false);
     setMatchesToPredict([]);
+    setPredictedResults({});
   };
 
   const onOpenChange = (isOpen: boolean) => {
@@ -91,7 +104,9 @@ export default function ImportPredictionsDialog({
         <div className="grid gap-8 justify-items-end">
           <Textarea
             className="w-full"
-            value={JSON.stringify(matchesToPredict ?? [])}
+            value={`${JSON.stringify(matchesToPredict ?? [])}${JSON.stringify(
+              predictedResults ?? {}
+            )}`}
             onKeyDown={(e) => {
               if (!(e.ctrlKey || e.metaKey) || e.key.toLowerCase() !== "v") {
                 e.preventDefault();

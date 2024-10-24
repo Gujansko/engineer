@@ -89,14 +89,12 @@ export default function PredictPage() {
     );
   };
 
-  const importPredictions = (matches: MatchToPredictWithId[]) => {
+  const importPredictions = (
+    matches: MatchToPredictWithId[],
+    predictionResults: Record<string, "A" | "H" | "D">
+  ) => {
     setMatchesToPredict(matches);
-
-    const newResults: Record<string, "A" | "H" | "D"> = {};
-    matches.forEach((match) => {
-      newResults[match.id] = "D";
-    });
-    setPickedResults(newResults);
+    setPickedResults(predictionResults);
     setExportStatus("Export predictions");
     setPredictionResults(new Map());
 

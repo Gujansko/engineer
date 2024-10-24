@@ -27,7 +27,10 @@ const PredictPageControlButtons = ({
   setPredictionResults: Dispatch<
     SetStateAction<Map<string, ActualPredictResult>>
   >;
-  importPredictions: (matches: MatchToPredictWithId[]) => void;
+  importPredictions: (
+    matches: MatchToPredictWithId[],
+    predictionResults: Record<string, "A" | "H" | "D">
+  ) => void;
   setLoading: Dispatch<SetStateAction<boolean>>;
 }) => {
   const [requestBody, setRequestBody] = useState<object | null>(null);
@@ -35,8 +38,20 @@ const PredictPageControlButtons = ({
   const { toast } = useToast();
 
   const exportPredictions = () => {
+    const predictionToExport = matchesToPredict.map((match) => {
+      const result = pickedResults[match.id];
+      return {
+        leagueName: match.leagueName,
+        leagueCountry: match.leagueCountry,
+        season: match.season,
+        homeTeam: match.homeTeam,
+        awayTeam: match.awayTeam,
+        result: result ?? "D",
+      };
+    });
+
     handleCopy(
-      matchesToPredict,
+      predictionToExport,
       setExportStatus,
       "Exported to clipboard",
       "Failed to export"
