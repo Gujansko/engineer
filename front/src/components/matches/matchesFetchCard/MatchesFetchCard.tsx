@@ -91,18 +91,28 @@ const MatchesFetchCard = ({
   };
 
   useEffect(() => {
-    const updatedRequestBody = [...matchesRequestBody];
-    const newRequestBody = {
-      leagueCountry: country,
-      leagueName: league,
-      seasons: seasons.split(","),
-      fetchedFields: statisticFields.split(",") as (keyof MatchData)[],
-      includedTeams: teams.split(","),
-    };
-    updatedRequestBody[index] = newRequestBody;
+    setMatchesRequestBody((prevRequestBody) => {
+      const updatedRequestBody = [...prevRequestBody];
+      const newRequestBody = {
+        leagueCountry: country,
+        leagueName: league,
+        seasons: seasons.split(","),
+        fetchedFields: statisticFields.split(",") as (keyof MatchData)[],
+        includedTeams: teams.split(","),
+      };
+      updatedRequestBody[index] = newRequestBody;
 
-    setMatchesRequestBody(updatedRequestBody);
-  }, [country, league, seasons, teams, statisticFields, index]);
+      return updatedRequestBody;
+    });
+  }, [
+    country,
+    league,
+    seasons,
+    teams,
+    statisticFields,
+    index,
+    setMatchesRequestBody,
+  ]);
 
   return (
     <Card className="max-w-6xl min-w-[40%]">

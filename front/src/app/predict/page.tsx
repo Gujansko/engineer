@@ -61,7 +61,7 @@ export default function PredictPage() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [toast]);
 
   const handleResultChange = (id: string, result: string) => {
     if (result === "A" || result === "H" || result === "D") {
