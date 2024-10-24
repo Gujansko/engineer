@@ -119,7 +119,9 @@ const PredictPageControlButtons = ({
         </Button>
         <Button
           variant="teal"
-          disabled={predictionResults.size > 0}
+          disabled={
+            !(matchesToPredict.length > 0) || predictionResults.size > 0
+          }
           onClick={handlePredict}
         >
           Predict
