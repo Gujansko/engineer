@@ -1,12 +1,13 @@
 import { useToast } from "@/hooks/use-toast";
 import { getButtonVariant, handleCopy } from "@/util/copyButtonHandle";
 import { predict } from "@/util/predict";
-import RequestBodyDialog from "../matchesInfoDialogs/RequestBodyDialog";
 import ImportPredictionsDialog from "../predictionDialogs/ImportPredictionsDialog";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 import { Dispatch, SetStateAction, useState } from "react";
 import { MatchToPredictWithId } from "@models/types/match-to-predict-with-id.type";
 import { ActualPredictResult } from "@models/types/actual-predict-result.type";
+import RequestBodyDialog from "@/components/matches/matchesInfoDialogs/RequestBodyDialog";
+import { createPredictionId } from "@/util/createPredictionId";
 
 const PredictPageControlButtons = ({
   pickedResults,
@@ -57,7 +58,10 @@ const PredictPageControlButtons = ({
       }
       setPredictionResults(
         new Map(
-          predictionResult.response.results.map((result) => [result.id, result])
+          predictionResult.response.results.map((result) => {
+            const id = createPredictionId(result);
+            return [id, result];
+          })
         )
       );
       setRequestBody(predictionResult.body);

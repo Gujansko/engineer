@@ -19,7 +19,8 @@ const getSearchParamsObject = (searchParams: ReadonlyURLSearchParams) => {
 };
 
 const fetchMatches = async (
-  searchParams: ReadonlyURLSearchParams
+  searchParams: ReadonlyURLSearchParams,
+  matchesRequestBody: MatchesRequestBody
 ): Promise<{ matches: Partial<MatchData>[]; requestBody: object } | string> => {
   try {
     const params = getSearchParamsObject(searchParams);
@@ -28,25 +29,11 @@ const fetchMatches = async (
       includeResults: params.includeResults || "true",
     };
 
-    const fetchCardAmount = parseInt(params.fetchCardAmount || "1", 10);
-    const body: MatchesRequestBody = [...Array(fetchCardAmount)].map(
-      (_, index) => ({
-        leagueCountry: params[`country-${index}`] || "",
-        leagueName: params[`league-${index}`] || "",
-        seasons: params[`seasons-${index}`]?.split(",") || [],
-        fetchedFields:
-          (params[`statisticFields-${index}`]?.split(
-            ","
-          ) as (keyof MatchData)[]) || [],
-        includedTeams: params[`teams-${index}`]?.split(",") || [],
-      })
-    );
-
     const response = await axios.post<{ matches: Partial<MatchData>[] }>(
       `${config.serverAddress}/matches?includeResults=${query.includeResults}`,
-      body
+      matchesRequestBody
     );
-    return { matches: response.data.matches, requestBody: body };
+    return { matches: response.data.matches, requestBody: matchesRequestBody };
   } catch (error: any) {
     return error?.response?.data?.error ?? error.message;
   }

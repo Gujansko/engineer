@@ -6,18 +6,19 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Button } from "../ui/button";
 import { SeasonInfo } from "@models/types/season-info.type";
 import { useEffect, useState } from "react";
 import { fetchAvailableLeagues } from "@/util/fetchAvailableLeagues";
+
+import { v4 as uuidv4 } from "uuid";
+import { LoaderCircle } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "../ui/accordion";
-import { v4 as uuidv4 } from "uuid";
-import { LoaderCircle } from "lucide-react";
+} from "@/components/ui/accordion";
 
 export default function AvailableLeaguesDialog({
   country,

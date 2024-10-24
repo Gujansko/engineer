@@ -51,15 +51,6 @@ export const PredictApiContent = ({
             <JSONPretty data={predictSchemaRequest} />
           </div>
           <h4 className="leading-10">
-            <span className="text-purple-300 bg-[#0f172a] p-2 rounded-md mr-2">
-              id
-            </span>
-            <span>
-              Used in the frontend application to identify matches. Any string
-              value can be used.
-            </span>
-          </h4>
-          <h4 className="leading-10">
             <span className="text-orange-500 bg-[#0f172a] p-2 rounded-md mr-2">
               leagueCountry
             </span>

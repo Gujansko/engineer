@@ -8,11 +8,11 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import JSONPretty from "react-json-pretty";
-import "../../styles/JsonStyle.css";
-import { Button } from "../ui/button";
+import "../../../styles/JsonStyle.css";
 import { useState } from "react";
 import { getButtonVariant, handleCopy } from "@/util/copyButtonHandle";
 import React from "react";
+import { Button } from "@/components/ui/button";
 
 const RequestBodyDialog = ({ requestBody }: { requestBody: object | null }) => {
   const [copyStatus, setCopyStatus] = useState<string>(

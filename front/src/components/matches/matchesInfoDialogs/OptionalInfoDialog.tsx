@@ -7,7 +7,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Info } from "lucide-react";
-import { Button } from "../ui/button";
 import {
   parameterWrapperClassName,
   textTitleClassName,
@@ -15,6 +14,7 @@ import {
   spanHighlightClassName,
 } from "@/constants/parameters";
 import config from "@config/config";
+import { Button } from "@/components/ui/button";
 
 const OptionalDialogInfo = () => {
   const defaultStatisticalFields = config.fetchedFields;
@@ -42,7 +42,13 @@ const OptionalDialogInfo = () => {
             <h3 className={textTitleClassName}>Statistical fields</h3>
             <p className={textBaseClassName}>
               Select one or more statistical field to include in the response.
-              {"\n\n"}If none are selected the default fields will be included.
+              {"\n\n"}If{" "}
+              <span className={spanHighlightClassName}>
+                no data is displayed
+              </span>{" "}
+              it may mean that some of the selected statistical fields are not
+              available for selected range of country, league or season.{"\n\n"}
+              If none are selected the default fields will be included.
               {"\n\n"}
               <span className={spanHighlightClassName}>Default fields: </span>
               {defaultStatisticalFields.join(", ")}.

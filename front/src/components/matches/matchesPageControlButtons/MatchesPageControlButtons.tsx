@@ -1,57 +1,48 @@
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
-import { Button } from "../ui/button";
-import { Badge } from "../ui/badge";
-import { Checkbox } from "../ui/checkbox";
-import { useUpdateQueryString } from "@/util/createQueryString";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { Button } from "../../ui/button";
+import { Badge } from "../../ui/badge";
+import { Checkbox } from "../../ui/checkbox";
 import fetchMatches from "@/util/fetchMatches";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { MatchData } from "@models/types/match-data.type";
 import { useToast } from "@/hooks/use-toast";
+import { MatchesRequestBody } from "@models/requests/matches-request-body.type";
 
 const MatchesPageControlButtons = ({
   setMatchesData,
   setRequestBody,
   setLoading,
   setError,
+  setFetchCardIndices,
+  fetchCardIndices,
+  matchesRequestBody,
 }: {
   setMatchesData: Dispatch<SetStateAction<Partial<MatchData>[]>>;
   setRequestBody: Dispatch<SetStateAction<object>>;
   setLoading: Dispatch<SetStateAction<boolean>>;
   setError: Dispatch<SetStateAction<string>>;
+  setFetchCardIndices: Dispatch<SetStateAction<number[]>>;
+  fetchCardIndices: number[];
+  matchesRequestBody: MatchesRequestBody;
 }) => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
   const { toast } = useToast();
 
-  const { createQueryString } = useUpdateQueryString();
-
-  const fetchCardAmount = parseInt(
-    searchParams.get("fetchCardAmount") || "1",
-    10
+  const [includeResults, setIncludeResults] = useState<boolean>(
+    searchParams.get("includeResults") === "true"
   );
 
-  const initialIncludeResults =
-    searchParams.get("includeResults") === "false" ? false : true;
-
   const handleIncludeResultsChange = (isChecked: boolean) => {
-    router.push(
-      pathname +
-        "?" +
-        createQueryString("includeResults", isChecked ? "true" : "false"),
-      {
-        scroll: false,
-      }
-    );
+    const newSearchParams = new URLSearchParams(searchParams.toString());
+    newSearchParams.set("includeResults", isChecked.toString());
+    router.push(`${pathname}?${newSearchParams.toString()}`, { scroll: false });
   };
 
   const handleAddFilterParameters = () => {
-    const params = new URLSearchParams(searchParams.toString());
-    const newFetchCardAmount = fetchCardAmount + 1;
-    params.set("fetchCardAmount", newFetchCardAmount.toString());
-    router.push(pathname + "?" + params.toString(), {
-      scroll: false,
-    });
+    const unusedIndex = Math.max(...fetchCardIndices) + 1;
+    setFetchCardIndices([...fetchCardIndices, unusedIndex]);
   };
 
   return (
@@ -59,11 +50,11 @@ const MatchesPageControlButtons = ({
       <Badge
         variant="filled"
         className="flex gap-2 items-center max-xl:w-fit cursor-pointer hover:bg-slate-200"
-        onClick={() => handleIncludeResultsChange(!initialIncludeResults)}
+        onClick={() => setIncludeResults((prevValue) => !prevValue)}
       >
         <Checkbox
           onCheckedChange={handleIncludeResultsChange}
-          checked={initialIncludeResults}
+          checked={includeResults}
         />
         <label className="text-sm pointer-events-none">Include results</label>
       </Badge>
@@ -80,7 +71,10 @@ const MatchesPageControlButtons = ({
           onClick={async () => {
             setLoading(true);
             try {
-              const newMatchData = await fetchMatches(searchParams);
+              const newMatchData = await fetchMatches(
+                searchParams,
+                matchesRequestBody
+              );
               if (typeof newMatchData === "string") {
                 toast({
                   title: "Failed to load data",

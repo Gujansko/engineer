@@ -9,7 +9,6 @@ export const getMatches = async (
   includeResults: boolean
 ): Promise<Partial<MatchData>[]> => {
   const response: Partial<MatchData>[] = [];
-
   for (const matchRequest of body) {
     if (
       !matchRequest.leagueCountry ||

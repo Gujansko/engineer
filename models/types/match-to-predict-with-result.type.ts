@@ -1,5 +1,5 @@
-import { MatchToPredictWithId } from "./match-to-predict-with-id.type";
+import { MatchToPredict } from "./match-to-predict.type";
 
-export type MatchToPredictWithResult = MatchToPredictWithId & {
+export type MatchToPredictWithResult = MatchToPredict & {
   result: "A" | "H" | "D";
 };

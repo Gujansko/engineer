@@ -1,5 +1,7 @@
 import { X } from "lucide-react";
-import { Button } from "../ui/button";
+
+import { MatchToPredictWithId } from "@models/types/match-to-predict-with-id.type";
+import { ActualPredictResult } from "@models/types/actual-predict-result.type";
 import {
   Table,
   TableBody,
@@ -8,16 +10,17 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../ui/table";
-import { MatchToPredictWithId } from "@models/types/match-to-predict-with-id.type";
-import { ActualPredictResult } from "@models/types/actual-predict-result.type";
+} from "@/components/ui/table";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
+} from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import { createPredictionId } from "@/util/createPredictionId";
+import { useToast } from "@/hooks/use-toast";
 
 const PredictPageTable = ({
   matchesToPredict,
@@ -37,14 +40,27 @@ const PredictPageTable = ({
     predictedResult: string
   ) => string;
 }) => {
+  const { toast } = useToast();
+
   const getActualResultHeder = () => {
-    if (predictionResults.size) {
-      const correctPredictions = Array.from(predictionResults.values()).filter(
-        (result) => result.actualResult === pickedResults[result.id]
-      ).length;
-      return `Actual Result ${correctPredictions}/${predictionResults.size}`;
+    try {
+      if (predictionResults.size) {
+        const correctPredictions = Array.from(
+          predictionResults.values()
+        ).filter(
+          (result) =>
+            result.actualResult === pickedResults[createPredictionId(result)]
+        ).length;
+        return `Actual Result ${correctPredictions}/${predictionResults.size}`;
+      }
+      return "Actual Result";
+    } catch (error) {
+      toast({
+        title: "Invalid input",
+        description: "Failed to read results",
+      });
+      return "Actual Result";
     }
-    return "Actual Result";
   };
 
   const getActualResultText = (actualResult: "A" | "H" | "D" | "") => {

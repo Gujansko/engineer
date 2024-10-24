@@ -2,7 +2,6 @@
 
 import { MatchData } from "@models/types/match-data.type";
 import { MatchToPredict } from "@models/types/match-to-predict.type";
-import MatchesPageControlButtons from "../matchesPageControlButtons/MatchesPageControlButtons";
 import {
   Table,
   TableBody,
@@ -11,16 +10,27 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../ui/table";
-import { useEffect, useState } from "react";
-import RequestBodyDialog from "../matchesInfoDialogs/RequestBodyDialog";
-import { Button } from "../ui/button";
+} from "../../ui/table";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Button } from "../../ui/button";
 import { spanHighlightClassName } from "@/constants/parameters";
 import { useToast } from "@/hooks/use-toast";
 import React from "react";
 import { LoaderCircle } from "lucide-react";
+import config from "@config/config";
+import MatchesPageControlButtons from "../matchesPageControlButtons/MatchesPageControlButtons";
+import RequestBodyDialog from "../matchesInfoDialogs/RequestBodyDialog";
+import { MatchesRequestBody } from "@models/requests/matches-request-body.type";
 
-const MatchesPageDataSection = () => {
+const MatchesPageDataSection = ({
+  fetchCardIndices,
+  setFetchCardIndices,
+  matchesRequestBody,
+}: {
+  fetchCardIndices: number[];
+  setFetchCardIndices: Dispatch<SetStateAction<number[]>>;
+  matchesRequestBody: MatchesRequestBody;
+}) => {
   const [matchesData, setMatchesData] = useState<Partial<MatchData>[]>([]);
   const [requestBody, setRequestBody] = useState<object | null>(null);
   const [matchesToPredict, setMatchesToPredict] = useState<MatchToPredict[]>(
@@ -94,6 +104,9 @@ const MatchesPageDataSection = () => {
         setRequestBody={setRequestBody}
         setLoading={setLoading}
         setError={setError}
+        setFetchCardIndices={setFetchCardIndices}
+        fetchCardIndices={fetchCardIndices}
+        matchesRequestBody={matchesRequestBody}
       />
       {error && <p className="text-red-500 mt-8">{error}</p>}
       {loading && (
@@ -154,8 +167,7 @@ const MatchesPageDataSection = () => {
                           <span className={spanHighlightClassName}>
                             Required fields to predict are:{" "}
                           </span>
-                          leagueName, leagueCountry, season, homeTeam and
-                          awayTeam.
+                          {config.predictFields.join(", ")}
                         </p>
                       </TableCell>
                     )}

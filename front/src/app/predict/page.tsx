@@ -1,7 +1,7 @@
 "use client";
 
-import PredictPageControlButtons from "@/components/predictPageControlButtons/PredictPageControlButtons";
-import PredictPageTable from "@/components/predictPageTable/PredictPageTable";
+import PredictPageControlButtons from "@/components/predict/predictPageControlButtons/PredictPageControlButtons";
+import PredictPageTable from "@/components/predict/predictPageTable/PredictPageTable";
 import {
   Card,
   CardContent,
@@ -9,14 +9,17 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { useToast } from "@/hooks/use-toast";
+import { createPredictionId } from "@/util/createPredictionId";
 import { ActualPredictResult } from "@models/types/actual-predict-result.type";
 import { MatchToPredictWithId } from "@models/types/match-to-predict-with-id.type";
 import { MatchToPredict } from "@models/types/match-to-predict.type";
 import { LoaderCircle } from "lucide-react";
 import { useEffect, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
 
 export default function PredictPage() {
+  const { toast } = useToast();
+
   const [matchesToPredict, setMatchesToPredict] = useState<
     MatchToPredictWithId[]
   >([]);
@@ -31,24 +34,33 @@ export default function PredictPage() {
   >(new Map());
 
   useEffect(() => {
-    const jsonMatchesToPredict = JSON.parse(
-      localStorage.getItem("matchesToPredict") ?? "[]"
-    );
-    const matchesWithIds: MatchToPredictWithId[] = jsonMatchesToPredict.map(
-      (match: MatchToPredict) => ({
-        ...match,
-        id: uuidv4(),
-      })
-    );
-    setMatchesToPredict(matchesWithIds);
+    try {
+      const jsonMatchesToPredict = JSON.parse(
+        localStorage.getItem("matchesToPredict") ?? "[]"
+      );
 
-    const initialResults: Record<string, "A" | "H" | "D"> = {};
-    matchesWithIds.forEach((match: any) => {
-      initialResults[match.id] = "D";
-    });
-    setPickedResults(initialResults);
+      const matchesWithIds: MatchToPredictWithId[] = jsonMatchesToPredict.map(
+        (match: MatchToPredict) => ({
+          ...match,
+          id: createPredictionId(match),
+        })
+      );
+      setMatchesToPredict(matchesWithIds);
 
-    setLoading(false);
+      const initialResults: Record<string, "A" | "H" | "D"> = {};
+      matchesWithIds.forEach((match: any) => {
+        initialResults[match.id] = "D";
+      });
+
+      setPickedResults(initialResults);
+    } catch (error) {
+      toast({
+        title: "Invalid input",
+        description: "Please paste a valid JSON array",
+      });
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
   const handleResultChange = (id: string, result: string) => {

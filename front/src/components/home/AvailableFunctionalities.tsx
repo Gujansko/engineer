@@ -22,7 +22,7 @@ const AvailableFunctionalities = () => {
               teams and even more.
             </p>
             <Button variant="teal" className="absolute bottom-4 right-4">
-              <Link href="/matches?fetchCardAmount=1">Retrieve Matches</Link>
+              <Link href="/matches?includeResults=true">Retrieve Matches</Link>
             </Button>
           </CardContent>
         </Card>

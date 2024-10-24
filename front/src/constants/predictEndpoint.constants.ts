@@ -4,7 +4,6 @@ import { PredictRequestBody } from "@models/requests/predict-request-body.type";
 export const predictSchemaResponse: { results: Array<object> } = {
   results: [
     {
-      id: "string",
       leagueName: "string",
       leagueCountry: "string",
       season: "string",
@@ -19,7 +18,6 @@ export const predictSchemaResponse: { results: Array<object> } = {
 export const predictExampleResponse: PredictResponseBody = {
   results: [
     {
-      id: "1",
       leagueName: "Premier League",
       leagueCountry: "England",
       season: "2023/2024",
@@ -29,7 +27,6 @@ export const predictExampleResponse: PredictResponseBody = {
       actualResult: "H",
     },
     {
-      id: "2",
       leagueName: "Bundesliga 1",
       leagueCountry: "Germany",
       season: "2023/2024",
@@ -43,7 +40,6 @@ export const predictExampleResponse: PredictResponseBody = {
 
 export const predictSchemaRequest: Array<object> = [
   {
-    id: "string",
     leagueName: "string",
     leagueCountry: "string",
     season: "string",
@@ -52,7 +48,6 @@ export const predictSchemaRequest: Array<object> = [
     result: "A | D | H",
   },
   {
-    id: "string",
     leagueName: "string",
     leagueCountry: "string",
     season: "string",
@@ -64,7 +59,6 @@ export const predictSchemaRequest: Array<object> = [
 
 export const predictExampleRequest: PredictRequestBody = [
   {
-    id: "1",
     leagueName: "Premier League",
     leagueCountry: "England",
     season: "2023/2024",
@@ -73,7 +67,6 @@ export const predictExampleRequest: PredictRequestBody = [
     result: "H",
   },
   {
-    id: "2",
     leagueName: "Bundesliga 1",
     leagueCountry: "Germany",
     season: "2023/2024",

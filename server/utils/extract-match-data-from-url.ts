@@ -76,6 +76,11 @@ export async function extractMatchDataFromUrl(
             ) {
               results.push(matchData);
             }
+          } else {
+            console.log("Missing fields", matchData);
+            actualFields.forEach((field) =>
+              console.log(`${field} ${matchData[field]}`)
+            );
           }
         })
         .on("end", () => {

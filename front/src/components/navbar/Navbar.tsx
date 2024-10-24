@@ -29,18 +29,10 @@ const Navbar = () => {
       }
         pb-4 rounded-b-[3rem] gap-6 z-50 w-fit align-middle transition-all duration-300`}
     >
-      <NavbarButton href="/" Icon={House} tooltipText="Home" />
-      <NavbarButton
-        href="/matches?fetchCardAmount=1"
-        Icon={Trophy}
-        tooltipText="Matches"
-      />
-      <NavbarButton
-        href="/predict"
-        Icon={TrendingUpDown}
-        tooltipText="Predict"
-      />
-      <NavbarButton href="/api" Icon={TextSearch} tooltipText="API" />
+      <NavbarButton href="/" Icon={House} />
+      <NavbarButton href="/matches?includeResults=true" Icon={Trophy} />
+      <NavbarButton href="/predict" Icon={TrendingUpDown} />
+      <NavbarButton href="/api" Icon={TextSearch} />
     </nav>
   );
 };

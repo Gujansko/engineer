@@ -7,13 +7,13 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Info } from "lucide-react";
-import { Button } from "../ui/button";
 import {
   parameterWrapperClassName,
   spanHighlightClassName,
   textBaseClassName,
   textTitleClassName,
 } from "@/constants/parameters";
+import { Button } from "@/components/ui/button";
 
 const RequiredDialogInfo = () => {
   return (

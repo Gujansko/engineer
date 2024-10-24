@@ -9,7 +9,6 @@ export const getPredictions = async (
   const groupedRequestPredictions: Record<
     string,
     {
-      id: string;
       leagueCountry: string;
       leagueName: string;
       season: string;
@@ -18,7 +17,6 @@ export const getPredictions = async (
       predictedResult: "A" | "H" | "D";
     }[]
   > = {};
-
   predictions.forEach((prediction) => {
     if (
       !prediction.leagueCountry.length ||
@@ -26,8 +24,7 @@ export const getPredictions = async (
       !prediction.season.length ||
       !prediction.homeTeam.length ||
       !prediction.awayTeam.length ||
-      !prediction.result.length ||
-      !prediction.id.length
+      !prediction.result.length
     ) {
       throw new Error("Invalid request body");
     }
@@ -37,7 +34,6 @@ export const getPredictions = async (
       groupedRequestPredictions[key] = [];
     }
     groupedRequestPredictions[key].push({
-      id: prediction.id,
       leagueCountry: prediction.leagueCountry,
       leagueName: prediction.leagueName,
       season: prediction.season,
@@ -60,7 +56,6 @@ export const getPredictions = async (
     const teamPairs = new Map<
       string,
       {
-        id: string;
         homeTeam: string;
         awayTeam: string;
         predictedResult: "A" | "H" | "D";
@@ -69,7 +64,6 @@ export const getPredictions = async (
     predictionsGroup.forEach((prediction) => {
       const key = `${prediction.leagueName}-${prediction.season}-${prediction.homeTeam}-${prediction.awayTeam}`;
       teamPairs.set(key, {
-        id: prediction.id,
         homeTeam: prediction.homeTeam,
         awayTeam: prediction.awayTeam,
         predictedResult: prediction.predictedResult,

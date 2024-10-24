@@ -14,7 +14,6 @@ export async function extractMatchDataPredictFromUrl(
   teamPairsWithPrediction: Map<
     string,
     {
-      id: string;
       homeTeam: string;
       awayTeam: string;
       predictedResult: "A" | "H" | "D";
@@ -31,13 +30,18 @@ export async function extractMatchDataPredictFromUrl(
     const response = await axios.get(url);
     const results: ActualPredictResult[] = [];
 
+    const fields: (keyof MatchData)[] = [
+      ...config.predictFields,
+      "fullTimeResult",
+    ];
+
     return new Promise((resolve, reject) => {
       Readable.from(response.data)
         .pipe(csv())
         .on("data", (data) => {
           const matchData: Partial<MatchData> = {};
 
-          config.fetchedFields.forEach((field) => {
+          fields.forEach((field) => {
             const csvFields = matchCsvToData[field];
 
             if (csvFields) {
@@ -64,12 +68,10 @@ export async function extractMatchDataPredictFromUrl(
           const teamPairWithResult = teamPairsWithPrediction.get(key);
 
           const hasAllFieldsAndIsTheMatch =
-            config.fetchedFields.every((field) => field in matchData) &&
-            teamPairWithResult;
+            fields.every((field) => field in matchData) && teamPairWithResult;
 
           if (hasAllFieldsAndIsTheMatch) {
             results.push({
-              id: teamPairWithResult.id,
               homeTeam: teamPairWithResult.homeTeam,
               awayTeam: teamPairWithResult.awayTeam,
               leagueCountry,

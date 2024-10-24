@@ -6,10 +6,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Button } from "../ui/button";
 import { useState } from "react";
 import { MatchToPredictWithId } from "@models/types/match-to-predict-with-id.type";
-import { Textarea } from "../ui/textarea";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/hooks/use-toast";
+import config from "@config/config";
+import { createPredictionId } from "@/util/createPredictionId";
 
 export default function ImportPredictionsDialog({
   onImport,
@@ -20,23 +23,61 @@ export default function ImportPredictionsDialog({
     MatchToPredictWithId[]
   >([]);
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+  const { toast } = useToast();
 
   const handleJsonParse = (jsonString: string) => {
     try {
       const parsedMatches = JSON.parse(jsonString);
-      setMatchesToPredict(parsedMatches);
+      if (!Array.isArray(parsedMatches)) {
+        toast({
+          title: "Invalid input",
+          description: "Please paste a valid JSON array",
+        });
+        return;
+      }
+
+      const newMatches: any[] = [];
+      parsedMatches.forEach((match: any) => {
+        const hasAllFields = config.predictFields.every(
+          (field) => match[field] !== undefined
+        );
+
+        if (!hasAllFields) {
+          return;
+        }
+
+        const newMatch: any = {};
+        config.predictFields.forEach((field) => {
+          newMatch[field] = match[field];
+        });
+        newMatch.id = createPredictionId(newMatch);
+
+        newMatches.push(newMatch);
+      });
+
+      setMatchesToPredict(newMatches as MatchToPredictWithId[]);
     } catch (error) {
       setMatchesToPredict([]);
+      toast({
+        title: "Invalid input",
+        description: "Please paste a valid JSON array",
+      });
     }
   };
 
   const handleImport = () => {
     onImport(matchesToPredict);
     setIsDialogOpen(false);
+    setMatchesToPredict([]);
+  };
+
+  const onOpenChange = (isOpen: boolean) => {
+    setIsDialogOpen(isOpen);
+    setMatchesToPredict([]);
   };
 
   return (
-    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+    <Dialog open={isDialogOpen} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
         <Button variant="secondary">Import predictions</Button>
       </DialogTrigger>
@@ -65,14 +106,24 @@ export default function ImportPredictionsDialog({
               handleJsonParse(pasteData);
             }}
           />
-          <Button
-            className="w-fit"
-            variant="teal"
-            onClick={handleImport}
-            disabled={!matchesToPredict.length}
-          >
-            Import
-          </Button>
+          <div className="flex gap-4">
+            <Button
+              className="w-fit"
+              variant="secondary"
+              onClick={() => setMatchesToPredict([])}
+              disabled={!matchesToPredict.length}
+            >
+              Clear input
+            </Button>
+            <Button
+              className="w-fit"
+              variant="teal"
+              onClick={handleImport}
+              disabled={!matchesToPredict.length}
+            >
+              Import
+            </Button>
+          </div>
         </div>
       </DialogContent>
     </Dialog>
