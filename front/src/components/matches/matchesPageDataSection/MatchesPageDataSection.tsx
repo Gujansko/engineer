@@ -11,7 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from "../../ui/table";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, Suspense, useEffect, useState } from "react";
 import { Button } from "../../ui/button";
 import { spanHighlightClassName } from "@/constants/parameters";
 import { useToast } from "@/hooks/use-toast";
@@ -99,15 +99,21 @@ const MatchesPageDataSection = ({
 
   return (
     <>
-      <MatchesPageControlButtons
-        setMatchesData={setMatchesData}
-        setRequestBody={setRequestBody}
-        setLoading={setLoading}
-        setError={setError}
-        setFetchCardIndices={setFetchCardIndices}
-        fetchCardIndices={fetchCardIndices}
-        matchesRequestBody={matchesRequestBody}
-      />
+      <Suspense
+        fallback={
+          <LoaderCircle className="w-10 h-10 animate-spin text-teal-500 mt-8" />
+        }
+      >
+        <MatchesPageControlButtons
+          setMatchesData={setMatchesData}
+          setRequestBody={setRequestBody}
+          setLoading={setLoading}
+          setError={setError}
+          setFetchCardIndices={setFetchCardIndices}
+          fetchCardIndices={fetchCardIndices}
+          matchesRequestBody={matchesRequestBody}
+        />
+      </Suspense>
       {error && <p className="text-red-500 mt-8">{error}</p>}
       {loading && (
         <LoaderCircle className="w-10 h-10 animate-spin text-teal-500 mt-8" />
