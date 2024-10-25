@@ -48,6 +48,8 @@ const MatchesFetchCard = ({
     config.fetchedFields.join(",")
   );
 
+  const [selectedLeagueSeasonIndices, setSelectedLeagueSeasonIndices] =
+    useState([0]);
   const [availableLeagues, setAvailableLeagues] = useState<string[]>([]);
   const [availableSeasons, setAvailableSeasons] = useState<
     Record<string, string[]>
@@ -92,14 +94,10 @@ const MatchesFetchCard = ({
   useEffect(() => {
     setMatchesRequestBody((prevRequestBody) => {
       const updatedRequestBody = [...prevRequestBody];
-      const countryNameChanged =
-        updatedRequestBody[index]?.leaguesCountry !== country;
 
       const newRequestElement = {
         leaguesCountry: country,
-        leagues: countryNameChanged
-          ? []
-          : updatedRequestBody[index]?.leagues || [],
+        leagues: updatedRequestBody[index]?.leagues || [],
         fetchedFields: statisticFields.split(",") as (keyof MatchData)[],
         includedTeams: teams.split(","),
       };
@@ -111,13 +109,14 @@ const MatchesFetchCard = ({
   }, [country, teams, statisticFields, index, setMatchesRequestBody]);
 
   useEffect(() => {
-    const fetchSeasonsAndLeagues = async () => {
-      try {
-        setErrorLoadingLeaguesAndSeasons("");
-        setAvailableLeagues([]);
-        setAvailableSeasons({});
-        setLoadingLeaguesAndSeasons(true);
+    setSelectedLeagueSeasonIndices([0]);
+    setErrorLoadingLeaguesAndSeasons("");
+    setAvailableLeagues([]);
+    setAvailableSeasons({});
 
+    const fetchData = async () => {
+      try {
+        setLoadingLeaguesAndSeasons(true);
         const leagues = await fetchAvailableLeagues(country);
 
         const availableLeagues = Array.from(
@@ -144,7 +143,7 @@ const MatchesFetchCard = ({
     };
 
     if (country) {
-      fetchSeasonsAndLeagues();
+      fetchData();
     }
   }, [country]);
 
@@ -177,14 +176,10 @@ const MatchesFetchCard = ({
               ))}
             </SelectContent>
           </Select>
-          {Array.from({
-            length:
-              matchesRequestBody.length > index
-                ? matchesRequestBody[index].leagues.length + 1
-                : 1,
-          }).map((_, idx) => (
+          {selectedLeagueSeasonIndices.map((selectIndex) => (
             <MatchesSelectLeagueAndSeasons
-              key={idx}
+              key={selectIndex}
+              selectLeagueAndSeasonIndex={selectIndex}
               matchFetchCardIndex={index}
               error={errorLoadingLeaguesAndSeasons}
               loading={loadingLeaguesAndSeasons}
@@ -192,6 +187,7 @@ const MatchesFetchCard = ({
               availableLeagues={availableLeagues}
               availableSeasons={availableSeasons}
               matchesRequestBody={matchesRequestBody}
+              setSelectedLeagueSeasonIndices={setSelectedLeagueSeasonIndices}
               setMatchesRequestBody={setMatchesRequestBody}
             />
           ))}
