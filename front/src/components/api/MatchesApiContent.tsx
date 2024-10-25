@@ -91,7 +91,7 @@ export const MatchesApiContent = ({
               leagues
             </span>
             <span>
-              Array of leagues to matches from. Each entry has a{" "}
+              Array of leagues to get matches from. Each entry has a{" "}
               <span className="text-lime-500 bg-[#0f172a] p-2 rounded-md">
                 name
               </span>{" "}
