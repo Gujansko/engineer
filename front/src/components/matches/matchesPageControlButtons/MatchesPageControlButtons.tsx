@@ -104,7 +104,7 @@ const MatchesPageControlButtons = ({
           className="max-xl:w-fit"
           disabled={
             !matchesRequestBody.length ||
-            !matchesRequestBody.some(
+            !matchesRequestBody.every(
               (el) =>
                 el.leaguesCountry.length &&
                 el.leagues.length &&
