@@ -14,37 +14,33 @@ import { v4 as uuidv4 } from "uuid";
 
 const MatchesSelectLeagueAndSeasons = ({
   matchFetchCardIndex,
-  selectLeagueAndSeasonIndex,
   error,
   loading,
   country,
   availableLeagues,
   availableSeasons,
   matchesRequestBody,
-  setSelectedLeagueSeasonIndices,
   setMatchesRequestBody,
 }: {
   matchFetchCardIndex: number;
-  selectLeagueAndSeasonIndex: number;
   error: string;
   loading: boolean;
   country: string;
   availableLeagues: string[];
   availableSeasons: Record<string, string[]>;
   matchesRequestBody: MatchesRequestBody;
-  setSelectedLeagueSeasonIndices: Dispatch<SetStateAction<number[]>>;
   setMatchesRequestBody: Dispatch<SetStateAction<MatchesRequestBody>>;
 }) => {
-  const [actualLeague, setActualLeague] = useState<string>("");
-  const [actualSeasons, setActualSeasons] = useState<string[]>([]);
+  const [selectedLeague, setSelectedLeague] = useState<string>("");
+  const [selectedSeasons, setSelectedSeasons] = useState<string[]>([]);
 
   useEffect(() => {
-    setActualLeague("");
-    setActualSeasons([]);
+    setSelectedLeague("");
+    setSelectedSeasons([]);
   }, [country]);
 
   const handleSeasonsChange = (season: string) => {
-    const currentSeasons = actualSeasons;
+    const currentSeasons = selectedSeasons;
     let updatedSeasons;
 
     if (currentSeasons.includes(season)) {
@@ -53,14 +49,14 @@ const MatchesSelectLeagueAndSeasons = ({
       updatedSeasons = [...currentSeasons, season];
     }
 
-    setActualSeasons(updatedSeasons);
+    setSelectedSeasons(updatedSeasons);
 
     setMatchesRequestBody((prevValue) => {
       const updatedRequestBody = [...prevValue];
       updatedRequestBody[matchFetchCardIndex] = {
         ...updatedRequestBody[matchFetchCardIndex],
         leagues: updatedRequestBody[matchFetchCardIndex].leagues.map((league) =>
-          league.name === actualLeague
+          league.name === selectedLeague
             ? { ...league, seasons: updatedSeasons }
             : league
         ),
@@ -71,19 +67,12 @@ const MatchesSelectLeagueAndSeasons = ({
   };
 
   const handleLeagueChange = (league: string) => {
-    if (!actualLeague.length) {
-      setSelectedLeagueSeasonIndices((prevValue) => {
-        const currentMaxIndex = Math.max(...prevValue);
-        return [...prevValue, currentMaxIndex + 1];
-      });
-    }
-
     setMatchesRequestBody((prevValue) => {
       const updatedRequestBody = [...prevValue];
       const existingLeagues = updatedRequestBody[matchFetchCardIndex].leagues;
 
       const filteredLeagues = existingLeagues.filter(
-        (l) => l.name !== actualLeague
+        (l) => l.name !== selectedLeague
       );
 
       if (!filteredLeagues.some((l) => l.name === league)) {
@@ -101,15 +90,11 @@ const MatchesSelectLeagueAndSeasons = ({
       return updatedRequestBody;
     });
 
-    setActualLeague(league);
-    setActualSeasons([]);
+    setSelectedLeague(league);
+    setSelectedSeasons([]);
   };
 
   const handleRemoveLeagueAndSeasons = () => {
-    setSelectedLeagueSeasonIndices((prevValue) =>
-      prevValue.filter((index) => index !== selectLeagueAndSeasonIndex)
-    );
-
     setMatchesRequestBody((prevValue) => {
       const updatedRequestBody = [...prevValue];
 
@@ -117,7 +102,7 @@ const MatchesSelectLeagueAndSeasons = ({
         const currentLeagues = updatedRequestBody[matchFetchCardIndex].leagues;
 
         const filteredLeagues = currentLeagues.filter(
-          (_, leagueIndex) => leagueIndex !== selectLeagueAndSeasonIndex
+          (league) => league.name !== selectedLeague
         );
 
         updatedRequestBody[matchFetchCardIndex] = {
@@ -131,7 +116,7 @@ const MatchesSelectLeagueAndSeasons = ({
   };
 
   return (
-    <div className={`${actualLeague.length && "flex flex-wrap gap-4"}`}>
+    <div className={`${selectedLeague.length && "flex flex-wrap gap-4"}`}>
       {error && <p className="text-red-500 col-span-3">{error}</p>}
       {loading && (
         <LoaderCircle className="w-10 h-10 animate-spin col-span-3" />
@@ -140,7 +125,7 @@ const MatchesSelectLeagueAndSeasons = ({
         <>
           <Select
             onValueChange={handleLeagueChange}
-            value={actualLeague}
+            value={selectedLeague}
             disabled={!availableLeagues.length}
           >
             <SelectTrigger className="w-[180px]">
@@ -171,26 +156,26 @@ const MatchesSelectLeagueAndSeasons = ({
               Select country to checkout leagues
             </Button>
           )}
-          {!!actualLeague.length && (
+          {!!selectedLeague.length && (
             <>
               <Select>
                 <SelectTrigger className="w-[140px]">
                   <span>
-                    {!!actualSeasons.length
-                      ? `${actualSeasons.length} `
+                    {!!selectedSeasons.length
+                      ? `${selectedSeasons.length} `
                       : "No "}
-                    {actualSeasons.length === 1 ? "Season" : "Seasons"}
+                    {selectedSeasons.length === 1 ? "Season" : "Seasons"}
                   </span>
                 </SelectTrigger>
                 <SelectContent>
-                  {availableSeasons[actualLeague].map((season) => (
+                  {availableSeasons[selectedLeague].map((season) => (
                     <div
                       key={uuidv4()}
                       className="hover:bg-neutral-100 py-1 flex items-center cursor-pointer"
                       onClick={() => handleSeasonsChange(season)}
                     >
                       <Checkbox
-                        checked={actualSeasons.includes(season)}
+                        checked={selectedSeasons.includes(season)}
                         onCheckedChange={() => handleSeasonsChange(season)}
                       />
                       <label className="pl-2 pointer-events-none">
@@ -200,7 +185,6 @@ const MatchesSelectLeagueAndSeasons = ({
                   ))}
                 </SelectContent>
               </Select>
-              {}
               <Button
                 variant="red"
                 className="w-fit py-2 px-3"
