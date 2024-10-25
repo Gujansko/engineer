@@ -12,6 +12,26 @@ export const getMatchesController = async (
     if (!Array.isArray(req.body)) {
       return res.status(400).json({ error: "Request body must be an array" });
     }
+    if (
+      req.body.some(
+        (element) => !Array.isArray(element.leagues) || !element.leagues.length
+      )
+    ) {
+      return res
+        .status(400)
+        .json({ error: "Request body leagues must be an array" });
+    }
+    if (
+      req.body.some(
+        (element) => !element.leagues.every((league) => league.seasons.length)
+      )
+    ) {
+      return res
+        .status(400)
+        .json({
+          error: "Request body leagues seasons must be an nonempty array",
+        });
+    }
     if (!req.query.includeResults) {
       return res
         .status(400)

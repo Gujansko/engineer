@@ -45,37 +45,53 @@ const RequiredDialogInfo = () => {
               </span>
               button and select another country.{"\n\n"}
               <span className={spanHighlightClassName}>
-                Select country to checkout leagues/Checkout available leagues{" "}
+                Select country to checkout available leagues.
               </span>
-              button is disabled until a country is selected.
             </p>
           </div>
           <div className={parameterWrapperClassName}>
             <h3 className={textTitleClassName}>League</h3>
             <p className={textBaseClassName}>
-              Select one league to get matches from. {"\n\n"}If you want to
-              select matches from more than one league press the{" "}
+              Select one league to get matches from. {"\n\n"}If you select one
+              league{" "}
               <span className={spanHighlightClassName}>
-                Add new filter parameters{" "}
+                the option to select new leagues from the same country{" "}
               </span>
-              button and select another league.{"\n\n"}To show the available
-              leagues select a country first then press the{" "}
+              will appear below.{"\n\n"}To select leagues from a different
+              country press the{" "}
               <span className={spanHighlightClassName}>
-                Select country to checkout leagues/Checkout available leagues
+                Add new filter parameters
               </span>{" "}
               button.
             </p>
+            <div className="mt-4">
+              <h3 className={textTitleClassName}>Delete league</h3>
+              <p className={textBaseClassName}>
+                Press the <span className={spanHighlightClassName}>X </span>
+                button next to seasons related to the league you want to delete.
+              </p>
+            </div>
           </div>
           <div>
             <h3 className={textTitleClassName}>Seasons</h3>
             <p className={textBaseClassName}>
-              Type in one or more seasons to get matches from.{"\n\n"} The
-              format of singular season should be{" "}
-              <span className={spanHighlightClassName}>YYYY/YYYY.</span>
-              {"\n\n"}To select multiple seasons separate them with a comma.{" "}
-              <span className={spanHighlightClassName}>Example:</span>{" "}
-              2019/2020, 2020/2021, 2021/2022.
+              When you{" "}
+              <span className={spanHighlightClassName}>select league </span>
+              option to select new season will appear next to it. Select{" "}
+              <span className={spanHighlightClassName}>
+                one or more seasons
+              </span>{" "}
+              using checkboxes.
             </p>
+            <div className="mt-4">
+              <h3 className={textTitleClassName}>Delete season</h3>
+              <p className={textBaseClassName}>
+                <span className={spanHighlightClassName}>
+                  Press the season related checkbox
+                </span>{" "}
+                to delete it.
+              </p>
+            </div>
           </div>
         </div>
       </DialogContent>

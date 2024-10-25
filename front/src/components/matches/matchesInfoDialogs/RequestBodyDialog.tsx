@@ -31,7 +31,7 @@ const RequestBodyDialog = ({ requestBody }: { requestBody: object | null }) => {
           <DialogTitle>Request Body</DialogTitle>
           <DialogDescription>
             The request body sent to the server. You can copy the JSON below and
-            use it.
+            use it. Request body updates every time you make a new request.
           </DialogDescription>
         </DialogHeader>
         {requestBody && (

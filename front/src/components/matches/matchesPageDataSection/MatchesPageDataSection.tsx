@@ -21,6 +21,7 @@ import config from "@config/config";
 import MatchesPageControlButtons from "../matchesPageControlButtons/MatchesPageControlButtons";
 import RequestBodyDialog from "../matchesInfoDialogs/RequestBodyDialog";
 import { MatchesRequestBody } from "@models/requests/matches-request-body.type";
+import { v4 as uuidv4 } from "uuid";
 
 const MatchesPageDataSection = ({
   fetchCardIndices,
@@ -142,46 +143,44 @@ const MatchesPageDataSection = ({
                 ? removeMatchToPredict
                 : addMatchToPredict;
               return (
-                <>
-                  <TableRow key={index}>
-                    {match?.season?.length &&
-                    match?.leagueName?.length &&
-                    match?.leagueCountry?.length ? (
-                      <TableCell>
-                        <Button
-                          className="w-[160px] whitespace-normal py-2 h-fit"
-                          variant={isMatchAlreadyAdded ? "red" : "green"}
-                          onClick={() =>
-                            matchFunction({
-                              leagueName: match.leagueName ?? "",
-                              season: match.season ?? "",
-                              homeTeam: match.homeTeam ?? "",
-                              awayTeam: match.awayTeam ?? "",
-                              leagueCountry: match.leagueCountry ?? "",
-                            })
-                          }
-                        >
-                          {isMatchAlreadyAdded
-                            ? "Remove match from predictions"
-                            : "Add match to predictions"}
-                        </Button>
-                      </TableCell>
-                    ) : (
-                      <TableCell className="max-w-[100px]">
-                        <p className="whitespace-pre-wrap">
-                          Not enough data to add match to predict.{"\n\n"}
-                          <span className={spanHighlightClassName}>
-                            Required fields to predict are:{" "}
-                          </span>
-                          {config.predictFields.join(", ")}
-                        </p>
-                      </TableCell>
-                    )}
-                    {Object.values(match).map((value, idx) => (
-                      <TableCell key={`${index}-${idx}`}>{value}</TableCell>
-                    ))}
-                  </TableRow>
-                </>
+                <TableRow key={`match-${index}`}>
+                  {match?.season?.length &&
+                  match?.leagueName?.length &&
+                  match?.leagueCountry?.length ? (
+                    <TableCell>
+                      <Button
+                        className="w-[160px] whitespace-normal py-2 h-fit"
+                        variant={isMatchAlreadyAdded ? "red" : "green"}
+                        onClick={() =>
+                          matchFunction({
+                            leagueName: match.leagueName ?? "",
+                            season: match.season ?? "",
+                            homeTeam: match.homeTeam ?? "",
+                            awayTeam: match.awayTeam ?? "",
+                            leagueCountry: match.leagueCountry ?? "",
+                          })
+                        }
+                      >
+                        {isMatchAlreadyAdded
+                          ? "Remove match from predictions"
+                          : "Add match to predictions"}
+                      </Button>
+                    </TableCell>
+                  ) : (
+                    <TableCell className="max-w-[100px]">
+                      <p className="whitespace-pre-wrap">
+                        Not enough data to add match to predict.{"\n\n"}
+                        <span className={spanHighlightClassName}>
+                          Required fields to predict are:{" "}
+                        </span>
+                        {config.predictFields.join(", ")}
+                      </p>
+                    </TableCell>
+                  )}
+                  {Object.values(match).map((value, idx) => (
+                    <TableCell key={`match-${index}-${idx}`}>{value}</TableCell>
+                  ))}
+                </TableRow>
               );
             })}
           </TableBody>

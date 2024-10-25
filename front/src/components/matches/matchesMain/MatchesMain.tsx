@@ -25,8 +25,8 @@ const MatchesMain = ({
               index={index}
               availableCountries={availableCountries}
               fetchCardIndices={fetchCardIndices}
-              setFetchCardIndices={setFetchCardIndices}
               matchesRequestBody={matchesRequestBody}
+              setFetchCardIndices={setFetchCardIndices}
               setMatchesRequestBody={setMatchesRequestBody}
             />
           ))}

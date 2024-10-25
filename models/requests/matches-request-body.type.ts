@@ -1,9 +1,8 @@
 import { MatchData } from "../types/match-data.type";
 
 export type MatchesRequestBody = {
-  leagueCountry: string;
-  leagueName: string;
-  seasons: string[];
+  leaguesCountry: string;
+  leagues: { name: string; seasons: string[] }[];
   fetchedFields?: (keyof MatchData)[];
   includedTeams?: string[];
 }[];

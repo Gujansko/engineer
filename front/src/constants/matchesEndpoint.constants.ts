@@ -21,19 +21,11 @@ export const matchesSchemaResponse: MatchesResponseBody = {
       leagueCountry: "string",
       leagueName: "string",
       season: "string",
-      matchDate: "string",
-      matchTime: "string",
       homeTeam: "string",
       awayTeam: "string",
       fullTimeHomeGoals: "string",
       fullTimeAwayGoals: "string",
       fullTimeResult: "string",
-      halfTimeHomeGoals: "string",
-      halfTimeAwayGoals: "string",
-      halfTimeResult: "string",
-      avgHomeWinOdds: "string",
-      avgDrawOdds: "string",
-      avgAwayWinOdds: "string",
     },
   ],
 };
@@ -71,33 +63,24 @@ export const matchesExampleResponse: MatchesResponseBody = {
       leagueCountry: "Germany",
       leagueName: "Bundesliga 1",
       season: "2023/2024",
-      matchDate: "18/08/2023",
-      matchTime: "19:30",
       homeTeam: "Werder Bremen",
       awayTeam: "Bayern Munich",
       fullTimeHomeGoals: "0",
       fullTimeAwayGoals: "4",
       fullTimeResult: "A",
-      halfTimeHomeGoals: "0",
-      halfTimeAwayGoals: "1",
-      halfTimeResult: "A",
-      avgHomeWinOdds: "8.5",
-      avgDrawOdds: "6.09",
-      avgAwayWinOdds: "1.32",
     },
   ],
 };
 
 export const matchesSchemaRequest: Array<object> = [
   {
-    leagueCountry: "string",
-    leagueName: "string",
-    seasons: "string[]",
+    leaguesCountry: "string",
+    leagues: "{ name: string, seasons: string[] }[]",
     fetchedFields: "matchFields[] | null",
     includedTeams: "string[] | null",
   },
   {
-    leagueCountry: "string",
+    leaguesCountry: "string",
     leagueName: "string",
     seasons: "string[]",
     fetchedFields: "matchFields[] | null",
@@ -107,9 +90,13 @@ export const matchesSchemaRequest: Array<object> = [
 
 export const matchesExampleRequest: MatchesRequestBody = [
   {
-    leagueCountry: "England",
-    leagueName: "Premier League",
-    seasons: ["2023/2024"],
+    leaguesCountry: "England",
+    leagues: [
+      {
+        name: "Premier League",
+        seasons: ["2023/2024"],
+      },
+    ],
     fetchedFields: [
       "leagueDivision",
       "leagueCountry",
@@ -126,8 +113,12 @@ export const matchesExampleRequest: MatchesRequestBody = [
     includedTeams: ["Burnley", "Arsenal"],
   },
   {
-    leagueCountry: "Germany",
-    leagueName: "Bundesliga 1",
-    seasons: ["2023/2024"],
+    leaguesCountry: "Germany",
+    leagues: [
+      {
+        name: "Bundesliga 1",
+        seasons: ["2023/2024"],
+      },
+    ],
   },
 ];

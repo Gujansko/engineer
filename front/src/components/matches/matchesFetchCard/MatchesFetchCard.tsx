@@ -16,50 +16,51 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../ui/select";
-import { Input } from "../../ui/input";
 import { ALL_MATCH_DATA_KEYS, MatchData } from "@models/types/match-data.type";
 import { Textarea } from "../../ui/textarea";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import config from "@config/config";
 import RequiredDialogInfo from "../matchesInfoDialogs/RequiredInfoDialog";
-import AvailableLeaguesDialog from "../matchesInfoDialogs/AvailableLeaguesDialog";
 import OptionalDialogInfo from "../matchesInfoDialogs/OptionalInfoDialog";
 import { MatchesRequestBody } from "@models/requests/matches-request-body.type";
+import MatchesSelectLeagueAndSeasons from "../matchesSelectLeagueAndSeasons/MatchesSelectLeagueAndSeasons";
+import { fetchAvailableLeagues } from "@/util/fetchAvailableLeagues";
 
 const MatchesFetchCard = ({
   availableCountries,
   index,
   fetchCardIndices,
-  setFetchCardIndices,
   matchesRequestBody,
+  setFetchCardIndices,
   setMatchesRequestBody,
 }: {
   availableCountries: string[];
   index: number;
   fetchCardIndices: number[];
-  setFetchCardIndices: Dispatch<SetStateAction<number[]>>;
   matchesRequestBody: MatchesRequestBody;
+  setFetchCardIndices: Dispatch<SetStateAction<number[]>>;
   setMatchesRequestBody: Dispatch<SetStateAction<MatchesRequestBody>>;
 }) => {
   const [country, setCountry] = useState("");
-  const [league, setLeague] = useState("");
-  const [seasons, setSeasons] = useState("");
   const [teams, setTeams] = useState("");
   const [statisticFields, setStatisticFields] = useState<string>(
     config.fetchedFields.join(",")
   );
 
+  const [selectedLeagueSeasonIndices, setSelectedLeagueSeasonIndices] =
+    useState([0]);
+  const [availableLeagues, setAvailableLeagues] = useState<string[]>([]);
+  const [availableSeasons, setAvailableSeasons] = useState<
+    Record<string, string[]>
+  >({});
+  const [loadingLeaguesAndSeasons, setLoadingLeaguesAndSeasons] =
+    useState(false);
+  const [errorLoadingLeaguesAndSeasons, setErrorLoadingLeaguesAndSeasons] =
+    useState("");
+
   const handleCountryChange = (value: string) => {
     setCountry(value);
-  };
-
-  const handleLeagueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setLeague(e.target.value);
-  };
-
-  const handleSeasonsChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setSeasons(e.target.value);
   };
 
   const handleTeamsChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -93,26 +94,58 @@ const MatchesFetchCard = ({
   useEffect(() => {
     setMatchesRequestBody((prevRequestBody) => {
       const updatedRequestBody = [...prevRequestBody];
-      const newRequestBody = {
-        leagueCountry: country,
-        leagueName: league,
-        seasons: seasons.split(","),
+
+      const newRequestElement = {
+        leaguesCountry: country,
+        leagues: updatedRequestBody[index]?.leagues || [],
         fetchedFields: statisticFields.split(",") as (keyof MatchData)[],
         includedTeams: teams.split(","),
       };
-      updatedRequestBody[index] = newRequestBody;
+
+      updatedRequestBody[index] = newRequestElement;
 
       return updatedRequestBody;
     });
-  }, [
-    country,
-    league,
-    seasons,
-    teams,
-    statisticFields,
-    index,
-    setMatchesRequestBody,
-  ]);
+  }, [country, teams, statisticFields, index, setMatchesRequestBody]);
+
+  useEffect(() => {
+    setSelectedLeagueSeasonIndices([0]);
+    setErrorLoadingLeaguesAndSeasons("");
+    setAvailableLeagues([]);
+    setAvailableSeasons({});
+
+    const fetchData = async () => {
+      try {
+        setLoadingLeaguesAndSeasons(true);
+        const leagues = await fetchAvailableLeagues(country);
+
+        const availableLeagues = Array.from(
+          new Set(
+            leagues.flatMap((l) => l.leagues.map((league) => league.name))
+          )
+        );
+        const availableSeasons: Record<string, string[]> = {};
+        availableLeagues.forEach((league) => {
+          availableSeasons[league] = leagues
+            .filter((l) => l.leagues.some((ll) => ll.name === league))
+            .map((l) => l.season);
+        });
+
+        setAvailableLeagues(availableLeagues);
+        setAvailableSeasons(availableSeasons);
+      } catch (error) {
+        setErrorLoadingLeaguesAndSeasons(
+          "Failed to fetch leagues, please try again later."
+        );
+      } finally {
+        setLoadingLeaguesAndSeasons(false);
+      }
+    };
+
+    if (country) {
+      fetchData();
+    }
+  }, [country]);
 
   return (
     <Card className="max-w-6xl min-w-[40%]">
@@ -122,7 +155,7 @@ const MatchesFetchCard = ({
           Set parameters and load matches satisfying the conditions
         </CardDescription>
       </CardHeader>
-      <CardContent className="flex gap-4 flex-wrap justify-between max-sm:justify-start">
+      <CardContent className="flex gap-8 flex-wrap justify-between max-sm:justify-start">
         {fetchCardIndices.length > 1 && (
           <X
             className="w-6 h-6 absolute top-4 right-4 cursor-pointer"
@@ -143,21 +176,21 @@ const MatchesFetchCard = ({
               ))}
             </SelectContent>
           </Select>
-          <div>
-            <Input
-              placeholder="League"
-              className="w-[180px]"
-              onChange={handleLeagueChange}
-              value={league}
+          {selectedLeagueSeasonIndices.map((selectIndex) => (
+            <MatchesSelectLeagueAndSeasons
+              key={selectIndex}
+              selectLeagueAndSeasonIndex={selectIndex}
+              matchFetchCardIndex={index}
+              error={errorLoadingLeaguesAndSeasons}
+              loading={loadingLeaguesAndSeasons}
+              country={country}
+              availableLeagues={availableLeagues}
+              availableSeasons={availableSeasons}
+              matchesRequestBody={matchesRequestBody}
+              setSelectedLeagueSeasonIndices={setSelectedLeagueSeasonIndices}
+              setMatchesRequestBody={setMatchesRequestBody}
             />
-            <AvailableLeaguesDialog country={country} />
-          </div>
-          <Textarea
-            placeholder="Seasons"
-            className="w-[180px]"
-            onChange={handleSeasonsChange}
-            value={seasons}
-          />
+          ))}
         </div>
 
         <div className="flex flex-col gap-4">
@@ -182,7 +215,6 @@ const MatchesFetchCard = ({
               ))}
             </SelectContent>
           </Select>
-
           <Textarea
             placeholder="Teams"
             className="w-[180px]"

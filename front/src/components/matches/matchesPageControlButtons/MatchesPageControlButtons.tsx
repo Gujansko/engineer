@@ -45,6 +45,38 @@ const MatchesPageControlButtons = ({
     setFetchCardIndices([...fetchCardIndices, unusedIndex]);
   };
 
+  const handleFetchMatches = async () => {
+    setLoading(true);
+    try {
+      const newMatchData = await fetchMatches(searchParams, matchesRequestBody);
+      if (typeof newMatchData === "string") {
+        toast({
+          title: "Failed to load data",
+          description: `Please try again, error: ${newMatchData}`,
+          variant: "destructive",
+        });
+        return;
+      }
+
+      setMatchesData(newMatchData.matches);
+      setRequestBody(newMatchData.requestBody);
+
+      if (newMatchData.matches.length === 0) {
+        toast({
+          title: "No matches found",
+          description: "Please try again with different filters",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      setError("Failed to fetch matches, please try again later.");
+      setMatchesData([]);
+      setRequestBody({});
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="flex gap-4 justify-between min-w-[40%] max-xl:flex-col max-xl:items-center">
       <Badge
@@ -68,31 +100,19 @@ const MatchesPageControlButtons = ({
         </Button>
         <Button
           variant="teal"
-          onClick={async () => {
-            setLoading(true);
-            try {
-              const newMatchData = await fetchMatches(
-                searchParams,
-                matchesRequestBody
-              );
-              if (typeof newMatchData === "string") {
-                toast({
-                  title: "Failed to load data",
-                  description: `Please try again, error: ${newMatchData}`,
-                  variant: "destructive",
-                });
-                return;
-              }
-
-              setMatchesData(newMatchData.matches);
-              setRequestBody(newMatchData.requestBody);
-            } catch (error) {
-              setError("Failed to fetch matches, please try again later.");
-            } finally {
-              setLoading(false);
-            }
-          }}
+          onClick={handleFetchMatches}
           className="max-xl:w-fit"
+          disabled={
+            !matchesRequestBody.length ||
+            !matchesRequestBody.some(
+              (el) =>
+                el.leaguesCountry.length &&
+                el.leagues.length &&
+                el.leagues.every(
+                  (league) => league.name.length && league.seasons.length
+                )
+            )
+          }
         >
           Load data
         </Button>

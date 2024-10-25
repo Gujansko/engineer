@@ -88,11 +88,18 @@ export const MatchesApiContent = ({
           </h4>
           <h4 className="leading-10">
             <span className="text-lime-500 bg-[#0f172a] p-2 rounded-md mr-2">
-              leagueName
+              leagues
             </span>
             <span>
-              Name of the league to get matches from. Available leagues can be
-              fetched using{" "}
+              Array of leagues to matches from. Each entry has a{" "}
+              <span className="text-lime-500 bg-[#0f172a] p-2 rounded-md">
+                name
+              </span>{" "}
+              - name of the league and an array of{" "}
+              <span className="text-lime-500 bg-[#0f172a] p-2 rounded-md">
+                seasons
+              </span>
+              . Available leagues can be fetched using{" "}
             </span>
             <Button
               className={apiRouteButtonClassName}
