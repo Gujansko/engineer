@@ -48,7 +48,7 @@ const NotFoundPage = () => {
         {redirectIn !== 1 ? "s" : ""}
       </h3>
       <Button variant="link" className="text-xs mt-auto text-slate-300">
-        <Link href="https://storyset.com/web">
+        <Link href="https://storyset.com/web" target="_blank">
           Web illustrations by Storyset{" "}
         </Link>
       </Button>
