@@ -82,7 +82,10 @@ const MatchesPageControlButtons = ({
       <Badge
         variant="filled"
         className="flex gap-2 items-center max-xl:w-fit cursor-pointer hover:bg-slate-200"
-        onClick={() => setIncludeResults((prevValue) => !prevValue)}
+        onClick={() => {
+          handleIncludeResultsChange(!includeResults);
+          setIncludeResults((prevValue) => !prevValue);
+        }}
       >
         <Checkbox
           onCheckedChange={handleIncludeResultsChange}

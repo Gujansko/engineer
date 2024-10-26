@@ -1,9 +1,18 @@
+import { redirect } from "next/navigation";
 import config from "../../../../config/config";
 import axios from "axios";
 import ErrorComponent from "@/components/errorComponent/ErrorComponent";
 import MatchesMain from "@/components/matches/matchesMain/MatchesMain";
 
-export default async function MatchesPage() {
+export default async function MatchesPage({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] };
+}) {
+  if (!searchParams.includeResults) {
+    redirect("/matches?includeResults=true");
+  }
+
   try {
     const availableCountries = (
       await axios.get<{ countries: string[] }>(
