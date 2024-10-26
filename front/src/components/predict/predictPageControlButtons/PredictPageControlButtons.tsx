@@ -14,6 +14,7 @@ const PredictPageControlButtons = ({
   matchesToPredict,
   predictionResults,
   exportStatus,
+  loading,
   setExportStatus,
   setPredictionResults,
   importPredictions,
@@ -23,6 +24,7 @@ const PredictPageControlButtons = ({
   matchesToPredict: MatchToPredictWithId[];
   predictionResults: Map<string, ActualPredictResult>;
   exportStatus: string;
+  loading: boolean;
   setExportStatus: Dispatch<SetStateAction<string>>;
   setPredictionResults: Dispatch<
     SetStateAction<Map<string, ActualPredictResult>>
@@ -59,8 +61,9 @@ const PredictPageControlButtons = ({
   };
 
   const handlePredict = async () => {
-    setLoading(true);
     try {
+      setLoading(true);
+
       const predictionResult = await predict(matchesToPredict, pickedResults);
 
       if ("error" in predictionResult.response) {
@@ -120,7 +123,9 @@ const PredictPageControlButtons = ({
         <Button
           variant="teal"
           disabled={
-            !(matchesToPredict.length > 0) || predictionResults.size > 0
+            !(matchesToPredict.length > 0) ||
+            predictionResults.size > 0 ||
+            loading
           }
           onClick={handlePredict}
         >

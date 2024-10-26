@@ -122,7 +122,12 @@ export default function PredictPage() {
           </CardDescription>
         </CardHeader>
         <CardContent className="pb-0">
-          {matchesToPredict.length ? (
+          {loading && (
+            <div className="w-full h-40 grid justify-items-center items-center">
+              <LoaderCircle className="w-10 h-10 animate-spin" />
+            </div>
+          )}
+          {!loading && !!matchesToPredict.length ? (
             <PredictPageTable
               matchesToPredict={matchesToPredict}
               predictionResults={predictionResults}
@@ -132,13 +137,11 @@ export default function PredictPage() {
               getActualResultTextColor={getActualResultTextColor}
             />
           ) : (
-            <div className="w-full h-40 grid justify-items-center items-center">
-              {loading ? (
-                <LoaderCircle className="w-10 h-10 animate-spin" />
-              ) : (
+            !loading && (
+              <div className="w-full h-40 grid justify-items-center items-center">
                 <h2 className="text-lg font-medium">No matches to predict</h2>
-              )}
-            </div>
+              </div>
+            )
           )}
         </CardContent>
       </Card>
@@ -147,6 +150,7 @@ export default function PredictPage() {
         matchesToPredict={matchesToPredict}
         predictionResults={predictionResults}
         exportStatus={exportStatus}
+        loading={loading}
         setExportStatus={setExportStatus}
         setPredictionResults={setPredictionResults}
         importPredictions={importPredictions}
