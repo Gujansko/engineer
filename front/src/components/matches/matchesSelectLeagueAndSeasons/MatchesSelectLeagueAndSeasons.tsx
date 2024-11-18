@@ -172,7 +172,7 @@ const MatchesSelectLeagueAndSeasons = ({
             </Button>
           )}
           {!!actualLeague.length && (
-            <>
+            <div className="flex gap-4">
               <Select>
                 <SelectTrigger className="w-[140px]">
                   <span>
@@ -200,7 +200,6 @@ const MatchesSelectLeagueAndSeasons = ({
                   ))}
                 </SelectContent>
               </Select>
-              {}
               <Button
                 variant="red"
                 className="w-fit py-2 px-3"
@@ -208,7 +207,7 @@ const MatchesSelectLeagueAndSeasons = ({
               >
                 <X className="w-4 h-4" />
               </Button>
-            </>
+            </div>
           )}
         </>
       )}
