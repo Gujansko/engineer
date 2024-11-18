@@ -13,19 +13,40 @@ export default async function MatchesPage({
     redirect("/matches?includeResults=true");
   }
 
-  try {
-    const availableCountries = (
-      await axios.get<{ countries: string[] }>(
-        `${config.serverAddress}/countries`
-      )
-    ).data.countries;
+  let availableCountries: string[] = [];
 
-    return (
-      <section className="grid gap-4 justify-items-center relative w-full px-8 py-4">
-        <MatchesMain availableCountries={availableCountries} />
-      </section>
+  try {
+    const availableCountriesResponse = await axios.get<{ countries: string[] }>(
+      `${config.serverAddress}/countries`
     );
+
+    if (availableCountriesResponse.status !== 200) {
+      throw new Error("Failed to fetch available countries");
+    }
+
+    availableCountries = availableCountriesResponse.data.countries;
   } catch (error: any) {
-    return <ErrorComponent errorMessage={error.message} />;
+    console.error("Error fetching available countries:", error.message);
+    return (
+      <ErrorComponent
+        errorMessage={
+          "Failed to connect to the server. Please try again later."
+        }
+        additionalMessage={
+          "Current server implementation allows for restarts due to inactivity. " +
+          "The relaunch of service can take up to one minute."
+        }
+      />
+    );
   }
+
+  return (
+    <section className="grid gap-4 justify-items-center relative w-full px-8 py-4">
+      {availableCountries.length === 0 ? (
+        <p>Loading available countries...</p>
+      ) : (
+        <MatchesMain availableCountries={availableCountries} />
+      )}
+    </section>
+  );
 }
