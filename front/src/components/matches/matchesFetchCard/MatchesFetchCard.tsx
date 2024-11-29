@@ -89,6 +89,11 @@ const MatchesFetchCard = ({
 
     const updatedIndices = fetchCardIndices.filter((i) => i !== index);
     setFetchCardIndices(updatedIndices);
+    setMatchesRequestBody((prevRequestBody) => {
+      const updatedRequestBody = [...prevRequestBody];
+      updatedRequestBody.splice(index, 1);
+      return updatedRequestBody;
+    });
   };
 
   useEffect(() => {
