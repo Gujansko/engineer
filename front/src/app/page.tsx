@@ -1,6 +1,7 @@
 import AvailableFunctionalities from "@/components/home/AvailableFunctionalities";
 import LandingPage from "@/components/home/LandingPage";
 import { Button } from "@/components/ui/button";
+import config from "@config/config";
 import Link from "next/link";
 
 export default function HomePage() {
@@ -17,6 +18,18 @@ export default function HomePage() {
             className="text-slate-300"
           >
             Web illustrations by Storyset
+          </Link>
+        </Button>
+        <Button variant="link" className="px-0 w-fit">
+          <Link
+            href={config.scrapeBaseUrl}
+            target="_blank"
+            className="text-slate-300"
+          >
+            {`Matches data scraped from ${config.scrapeBaseUrl.replace(
+              "https://",
+              ""
+            )}`}
           </Link>
         </Button>
         <Button variant="link" className="px-0 w-fit">
