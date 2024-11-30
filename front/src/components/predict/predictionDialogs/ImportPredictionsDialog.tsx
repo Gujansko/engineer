@@ -39,6 +39,7 @@ export default function ImportPredictionsDialog({
         toast({
           title: "Invalid input",
           description: "Please paste a valid JSON array",
+          variant: "destructive",
         });
         return;
       }
