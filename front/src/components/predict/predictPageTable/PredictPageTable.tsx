@@ -1,6 +1,9 @@
 import { X } from "lucide-react";
 
-import { MatchToPredictWithId } from "@models/types/match-to-predict-with-id.type";
+import {
+  MatchToPredictWithId,
+  matchToPredictWithIdKeys,
+} from "@models/types/match-to-predict-with-id.type";
 import { ActualPredictResult } from "@models/types/actual-predict-result.type";
 import {
   Table,
@@ -79,7 +82,7 @@ const PredictPageTable = ({
       <TableCaption>A list of matches to predict.</TableCaption>
       <TableHeader>
         <TableRow>
-          {Object.keys(matchesToPredict[0]).map((key) => (
+          {matchToPredictWithIdKeys.map((key) => (
             <TableHead key={key} hidden={key === "id"}>
               {key}
             </TableHead>
@@ -94,9 +97,9 @@ const PredictPageTable = ({
       <TableBody>
         {matchesToPredict.map((matchToPredict) => (
           <TableRow key={matchToPredict.id}>
-            {Object.keys(matchToPredict).map((key, index) => (
+            {matchToPredictWithIdKeys.map((key, index) => (
               <TableCell key={index} hidden={key === "id"}>
-                {matchToPredict[key as keyof MatchToPredictWithId]}
+                {matchToPredict[key]}
               </TableCell>
             ))}
             <TableCell>
