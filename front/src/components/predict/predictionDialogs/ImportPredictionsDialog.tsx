@@ -143,7 +143,12 @@ export default function ImportPredictionsDialog({
               className="w-fit"
               variant="teal"
               onClick={handleImport}
-              disabled={!matchesToPredict.length}
+              disabled={
+                !(
+                  matchesToPredict.length ||
+                  Object.keys(predictedResults).length
+                )
+              }
             >
               Import
             </Button>
