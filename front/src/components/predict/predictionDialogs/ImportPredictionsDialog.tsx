@@ -87,6 +87,7 @@ export default function ImportPredictionsDialog({
   const onOpenChange = (isOpen: boolean) => {
     setIsDialogOpen(isOpen);
     setMatchesToPredict([]);
+    setPredictedResults({});
   };
 
   return (
@@ -125,8 +126,16 @@ export default function ImportPredictionsDialog({
             <Button
               className="w-fit"
               variant="secondary"
-              onClick={() => setMatchesToPredict([])}
-              disabled={!matchesToPredict.length}
+              onClick={() => {
+                setMatchesToPredict([]);
+                setPredictedResults({});
+              }}
+              disabled={
+                !(
+                  matchesToPredict.length ||
+                  Object.keys(predictedResults).length
+                )
+              }
             >
               Clear input
             </Button>
