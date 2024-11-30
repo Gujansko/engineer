@@ -94,9 +94,9 @@ const PredictPageTable = ({
       <TableBody>
         {matchesToPredict.map((matchToPredict) => (
           <TableRow key={matchToPredict.id}>
-            {Object.values(matchToPredict).map((value, index) => (
-              <TableCell key={index} hidden={value === matchToPredict.id}>
-                {value}
+            {Object.keys(matchToPredict).map((key, index) => (
+              <TableCell key={index} hidden={key === "id"}>
+                {matchToPredict[key as keyof MatchToPredictWithId]}
               </TableCell>
             ))}
             <TableCell>
