@@ -80,11 +80,11 @@ const MatchesSelectLeagueAndSeasons = ({
 
     setMatchesRequestBody((prevValue) => {
       const updatedRequestBody = [...prevValue];
-      const existingLeagues = updatedRequestBody[matchFetchCardIndex].leagues;
+      const existingLeagues = updatedRequestBody[matchFetchCardIndex]?.leagues;
 
-      const filteredLeagues = existingLeagues.filter(
+      const filteredLeagues = existingLeagues ? existingLeagues.filter(
         (l) => l.name !== actualLeague
-      );
+      ) : [];
 
       if (!filteredLeagues.some((l) => l.name === league)) {
         filteredLeagues.push({
@@ -153,7 +153,7 @@ const MatchesSelectLeagueAndSeasons = ({
                   value={league}
                   disabled={matchesRequestBody[
                     matchFetchCardIndex
-                  ].leagues.some(
+                  ]?.leagues.some(
                     (pickedLeague) => pickedLeague.name === league
                   )}
                 >
